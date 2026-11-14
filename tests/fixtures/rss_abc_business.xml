@@ -1,0 +1,1630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+  <!-- This is a rebuild of News RSS. If you notice any issues please contact DG-NewsWeb@abc.net.au -->
+  <channel>
+    <title>Latest business news</title>
+    <category>Australian Broadcasting Corporation: All content</category>
+    <link>https://www.abc.net.au</link>
+    <atom:link href="https://www.abc.net.au" rel="self" type="application/rss+xml" />
+    <description>
+    </description>
+    <language>en-AU</language>
+    <copyright>Copyright 2026, Australian Broadcasting Corporation. All Rights Reserved.</copyright>
+    <pubDate>Thu, 12 Nov 2026 20:06:25 +0000</pubDate>
+    <lastBuildDate>Thu, 12 Nov 2026 20:06:25 +0000</lastBuildDate>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <managingEditor>Newson1ine@abc.net.au (ABC News)</managingEditor>
+    <image>
+      <title>Latest business news</title>
+      <url>https://live-production.wcms.abc-cdn.net.au/6f61ef606af0bbbcbdaa7c6173a677e2?impolicy=wcms_crop_resize&amp;cropH=144&amp;cropW=144&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=862</url>
+      <link>https://www.abc.net.au</link>
+    </image>
+    <item>
+      <title>SA gives green light for gas to help power future data centres</title>
+      <link>https://www.abc.net.au/news/2026-11-13/sa-gives-green-light-for-gas-to-power-data-centres/107364606</link>
+      <description>
+        <![CDATA[The South Australian government says it is "absolutely fine" for gas to be used to help power data centres, despite its strategy focusing on renewable energy as the source. ]]>
+      </description>
+      <dc:creator>James Wakelin</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 20:06:25 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/sa-gives-green-light-for-gas-to-power-data-centres/107364606</guid>
+      <category>Data Centres</category>
+      <category>Utilities</category>
+      <category>AI</category>
+      <category>Renewable Energy</category>
+      <category>Oil and Gas</category>
+      <category>Greenhouse Gases</category>
+      <media:group>
+        <media:description>The proposed data centre at Bundey in SA's Mid North would require up to 800 megawatts of electricity to operate.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=2250&amp;cropW=4000&amp;xPos=0&amp;yPos=375&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=3000&amp;cropW=3000&amp;xPos=175&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=2277&amp;cropW=3416&amp;xPos=9&amp;yPos=328&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=3000&amp;cropW=2250&amp;xPos=875&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=2485&amp;cropW=3314&amp;xPos=7&amp;yPos=296&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=3000&amp;cropW=1688&amp;xPos=1156&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/819ef25432123b367325a23ff471005c?impolicy=wcms_crop_resize&amp;cropH=3000&amp;cropW=2250&amp;xPos=875&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Only four government ministers have saved money this year. Here's who</title>
+      <link>https://www.abc.net.au/news/2026-11-13/which-ministers-have-achieved-net-savings-this-year/107377958</link>
+      <description>
+        <![CDATA[As the government pursues savings "across the board" ahead of the mid-year budget update, an ABC analysis shows only a handful of ministers have managed net savings so far this year.]]>
+      </description>
+      <dc:creator>Tom Crowley</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 19:48:27 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/which-ministers-have-achieved-net-savings-this-year/107377958</guid>
+      <category>Federal Government</category>
+      <category>Economy</category>
+      <media:group>
+        <media:description>Jim Chalmers and Katy Gallagher have flagged further savings in the mid-year budget update.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=1&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2814&amp;cropW=2814&amp;xPos=1300&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=4220&amp;xPos=780&amp;yPos=1&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2814&amp;cropW=2111&amp;xPos=1445&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2814&amp;cropW=3752&amp;xPos=1080&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2814&amp;cropW=1583&amp;xPos=1709&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/1ecc142d3094e74befec3b6fa745cf65?impolicy=wcms_crop_resize&amp;cropH=2814&amp;cropW=2111&amp;xPos=1445&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Financial pain of outer suburbs fuelled demise of David Jones, experts say</title>
+      <link>https://www.abc.net.au/news/2026-11-13/nsw-david-jones-sydney-store-closure-suburban-economic-strain/107380310</link>
+      <description>
+        <![CDATA[After 188 years, David Jones announced it would close 19 stores, most of them in Sydney's outer suburbs.]]>
+      </description>
+      <dc:creator>Sean Tarek Goodwin</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 19:33:29 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/nsw-david-jones-sydney-store-closure-suburban-economic-strain/107380310</guid>
+      <category>Retail Industry</category>
+      <media:group>
+        <media:description>Economic pain felt in outer suburban areas could have fast-tracked the problems that overtook David Jones.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=3891&amp;cropW=6918&amp;xPos=0&amp;yPos=360&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=4612&amp;xPos=1153&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=6918&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=3459&amp;xPos=1730&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=6149&amp;xPos=384&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=2594&amp;xPos=2162&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=3459&amp;xPos=1730&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Salmon deaths at 'eye-watering' levels in Macquarie Harbour</title>
+      <link>https://www.abc.net.au/news/2026-11-13/salmon-deaths-macquarie-harbour-tasmania-rti/107379706</link>
+      <description>
+        <![CDATA[Almost 2,000 tonnes of farmed salmon died over a 15-month period in Macquarie Harbour on Tasmania’s west coast, new data shows. ]]>
+      </description>
+      <dc:creator>Jano Gibson</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 19:00:10 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/salmon-deaths-macquarie-harbour-tasmania-rti/107379706</guid>
+      <category>Fishing and Aquaculture Industry</category>
+      <category>Climate Change</category>
+      <media:group>
+        <media:description>The EPA regulates 10 salmon leases in the harbour.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=358&amp;cropW=637&amp;xPos=131&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=512&amp;cropW=512&amp;xPos=211&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=512&amp;cropW=768&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=512&amp;cropW=384&amp;xPos=287&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=376&amp;cropW=502&amp;xPos=202&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=512&amp;cropW=288&amp;xPos=310&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/da6bda9354757c748045963fedbe1153?impolicy=wcms_crop_resize&amp;cropH=512&amp;cropW=384&amp;xPos=287&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Bowen pushes pragmatic climate deal amid pressure over fossil fuels</title>
+      <link>https://www.abc.net.au/news/2026-11-13/chris-bowen-seeks-pragmatic-consensus-nto-inal-cop31-talks/107380860</link>
+      <description>
+        <![CDATA[Chris Bowen says Australia's coal and gas exports have not damaged its standing in climate negotiations, as countries struggle to agree on how to move away from fossil fuels.]]>
+      </description>
+      <pubDate>Thu, 12 Nov 2026 18:50:35 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/chris-bowen-seeks-pragmatic-consensus-nto-inal-cop31-talks/107380860</guid>
+      <category>Climate Change</category>
+      <category>Environmental Policy</category>
+      <category>Renewable Energy</category>
+      <category>Foreign Affairs</category>
+      <category>Federal Government</category>
+      <category>Government and Politics</category>
+      <media:group>
+        <media:description>Chris Bowen rejects suggestions Australia's role as a major fossil fuel exporter has damaged its standing in the negotiations.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1111&amp;cropW=1975&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=1317&amp;xPos=627&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=1975&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=988&amp;xPos=792&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=1756&amp;xPos=219&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=741&amp;xPos=915&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/ea0a2f57e1a522e16f296aa729f1a152?impolicy=wcms_crop_resize&amp;cropH=1317&amp;cropW=988&amp;xPos=792&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Lifesaving medicines frequently in short supply and doctors are worried</title>
+      <link>https://www.abc.net.au/news/2026-11-13/repeated-critical-medicine-shortages-new-analysis/107242432</link>
+      <description>
+        <![CDATA[ABC analysis reveals the important medicines that are repeatedly hard to source, highlighting supply chain weaknesses that could get worse.]]>
+      </description>
+      <dc:creator>Madi Chwasta, Jarrod Fankhauser, Joshua Byrd, and Cristen Tilley</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 18:00:00 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-13/repeated-critical-medicine-shortages-new-analysis/107242432</guid>
+      <category>Pharmaceuticals</category>
+      <category>Diseases and Disorders</category>
+      <category>Pharmaceutical Industry</category>
+      <media:group>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=1414&amp;cropW=2514&amp;xPos=304&amp;yPos=338&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=2160&amp;cropW=2160&amp;xPos=540&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=1535&amp;cropW=2303&amp;xPos=460&amp;yPos=304&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=2160&amp;cropW=1620&amp;xPos=1155&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=1700&amp;cropW=2267&amp;xPos=504&amp;yPos=243&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=2160&amp;cropW=1215&amp;xPos=1546&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/bce9b592617140e6cb5689254b6eee7f?impolicy=wcms_crop_resize&amp;cropH=2160&amp;cropW=1620&amp;xPos=1155&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Data centre industry butts up against community challenges</title>
+      <link>https://www.abc.net.au/news/2026-11-12/data-centre-industry-butts-up-against-community-challenges/107379250</link>
+      <description>
+        <![CDATA[The peak body for the data centre industry says community consultation remains a sticking point, as Quantum DC halts its Tungkillo project.]]>
+      </description>
+      <dc:creator>Evelyn Leckie and Thomas Kelsall</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 07:29:48 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/data-centre-industry-butts-up-against-community-challenges/107379250</guid>
+      <category>Data Centres</category>
+      <category>AI</category>
+      <category>Infrastructure Policy</category>
+      <category>Environmental Impacts</category>
+      <category>Environmental Policy</category>
+      <media:group>
+        <media:description>Data centre companies are reportedly grappling with how to get community engagement "right".</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=260&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=3333&amp;xPos=834&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1250&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=4444&amp;xPos=278&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=1875&amp;xPos=1563&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/f51fe90323a9a06385d06e05ac8f2726?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1250&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Nvidia without succession plan as CEO Jensen Huang resigns</title>
+      <link>https://www.abc.net.au/news/2026-11-12/jensen-huang-nvidia-ceo-succession-plan-after-spy-plot/107376722</link>
+      <description>
+        <![CDATA[Jensen Huang, the co-founder, president and chief executive, has resigned, leaving the tech giant in a precarious position with no clear next leader.]]>
+      </description>
+      <dc:creator>Annabel Bowles</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 07:01:07 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/jensen-huang-nvidia-ceo-succession-plan-after-spy-plot/107376722</guid>
+      <category>Company News</category>
+      <category>AI</category>
+      <media:group>
+        <media:description>Jensen Huang's departure from Nvidia could leave a leadership vacuum at the leading AI chip company.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=2475&amp;cropW=4400&amp;xPos=396&amp;yPos=242&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=3333&amp;xPos=877&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=2816&amp;cropW=4224&amp;xPos=473&amp;yPos=121&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1294&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=3025&amp;cropW=4033&amp;xPos=615&amp;yPos=99&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=1875&amp;xPos=1607&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/fea482c9525110a8377e8823f48d515f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1294&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Coalmine reopens despite previous owners saying royalties made it unprofitable</title>
+      <link>https://www.abc.net.au/news/2026-11-12/qld-coalmine-reopens-after-being-in-receivership/107379524</link>
+      <description>
+        <![CDATA[A new Queensland company has purchased its fourth Bowen Basin coal mine, employing 275 workers to reopen a coalmine.]]>
+      </description>
+      <dc:creator>Liam O'Connell</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 06:52:00 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/qld-coalmine-reopens-after-being-in-receivership/107379524</guid>
+      <category>Mining and Metals Industry</category>
+      <media:group>
+        <media:description>Dump trucks on the haul road at the mine.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=25&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=2862&amp;xPos=1069&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=4293&amp;xPos=354&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=2147&amp;xPos=1427&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=3816&amp;xPos=592&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=1610&amp;xPos=1695&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/1e99508687b005242a524fbd3897fb26?impolicy=wcms_crop_resize&amp;cropH=2862&amp;cropW=2147&amp;xPos=1427&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Hunt is on for heir to strange block of land</title>
+      <link>https://www.abc.net.au/news/2026-11-12/qld-government-searches-heir-of-strange-block-of-land-in-logan/107374878</link>
+      <description>
+        <![CDATA[Could you be the long-lost owner of a 16m by 60cm strip of land in south-east Queensland, whose last known owner was August Thorsborne, a 19th-century businessman who died more than 100 years ago? The Department of Transport and Main Roads needs to know.]]>
+      </description>
+      <dc:creator>Ellen-Maree Elliot</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 05:41:02 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/qld-government-searches-heir-of-strange-block-of-land-in-logan/107374878</guid>
+      <category>History</category>
+      <category>Human Interest</category>
+      <category>Urban Development and Planning</category>
+      <category>Rail Transport Industry</category>
+      <media:group>
+        <media:description>Des Crump is a historian and bottle collector who has researched August Thorsborne.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=3333&amp;xPos=1324&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1741&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=4444&amp;xPos=556&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=1874&amp;xPos=2054&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/2b396b380a3412683d98a1e2baa46c2d?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1741&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Commercial rock lobster fisheries closed due to antibiotic trade risk</title>
+      <link>https://www.abc.net.au/news/2026-11-12/rock-lobster-closure-trade-risk-antibiotic-salmon-tasmania/107377846</link>
+      <description>
+        <![CDATA[Commercial rock lobster and dive fisheries in parts of Tasmania's south-east will be closed for three months to "mitigate trade risks" linked to antibiotic use by the salmon industry.]]>
+      </description>
+      <dc:creator>Jano Gibson</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 04:18:48 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/rock-lobster-closure-trade-risk-antibiotic-salmon-tasmania/107377846</guid>
+      <category>Fishing and Aquaculture Industry</category>
+      <category>Recreational Fishing</category>
+      <category>Environmental Impacts</category>
+      <category>Environmental Management</category>
+      <media:group>
+        <media:description>The fisheries in parts of Tasmania's south-east will be closed to mitigate trade risks.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=3942&amp;cropW=7008&amp;xPos=0&amp;yPos=365&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=4672&amp;xPos=1168&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=7008&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=3504&amp;xPos=1752&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=6229&amp;xPos=390&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=2628&amp;xPos=2190&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/bde207f87ddf56bab7a5901ff214d055?impolicy=wcms_crop_resize&amp;cropH=4672&amp;cropW=3504&amp;xPos=1752&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>ANZ boss warns global markets in 'dangerous situation' as interest rates rise</title>
+      <link>https://www.abc.net.au/news/2026-11-12/anz-boss-says-global-markets-in-dangerous-situation/107377392</link>
+      <description>
+        <![CDATA[ANZ boss Nuno Matos says he sees a "dangerous situation" of rising rates and frothy equity markets.]]>
+      </description>
+      <dc:creator>Gareth Hutchens</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 04:09:34 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/anz-boss-says-global-markets-in-dangerous-situation/107377392</guid>
+      <category>Banking</category>
+      <category>AI</category>
+      <category>Financial Markets</category>
+      <category>Business, Economics and Finance</category>
+      <category>Financial Services</category>
+      <media:group>
+        <media:description>Nuno Matos says governments should be careful about competing too aggressively for global capital.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=1024&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=576&amp;xPos=128&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=864&amp;xPos=80&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=432&amp;xPos=232&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=768&amp;xPos=128&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=324&amp;xPos=283&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/41bdd963b427d1e5b2bc84aaaea1b6c7?impolicy=wcms_crop_resize&amp;cropH=576&amp;cropW=432&amp;xPos=232&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>'If they're winning, we're winning': Suppliers on David Jones closures</title>
+      <link>https://www.abc.net.au/news/2026-11-12/david-jones-suppliers-react-to-store-closures/107374298</link>
+      <description>
+        <![CDATA[Some suppliers think a streamlined David Jones could be good news for their sales if it encourages more shoppers into fewer, higher-performing stores.]]>
+      </description>
+      <dc:creator>Liana Walker</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 03:42:15 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/david-jones-suppliers-react-to-store-closures/107374298</guid>
+      <category>Retail Industry</category>
+      <category>Business, Economics and Finance</category>
+      <category>Company News</category>
+      <media:group>
+        <media:description>David Jones has announced plans to close half its stores. </media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=3891&amp;cropW=6918&amp;xPos=0&amp;yPos=360&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=4612&amp;xPos=1153&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=6918&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=3459&amp;xPos=1730&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=6149&amp;xPos=384&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=2594&amp;xPos=2162&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/dafb31b189e4868b3bf4dfd24c97e977?impolicy=wcms_crop_resize&amp;cropH=4612&amp;cropW=3459&amp;xPos=1730&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Train passengers stranded for hours with no aircon, no food and full toilets</title>
+      <link>https://www.abc.net.au/news/2026-11-12/train-passengers-stranded-for-hours-without-aircon-food-gundiah/107376462</link>
+      <description>
+        <![CDATA[Buses have been called in to get passengers home as track repair work continues. ]]>
+      </description>
+      <dc:creator>Grace Whiteside, Russell Varley, and James C Taylor</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 02:39:18 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/train-passengers-stranded-for-hours-without-aircon-food-gundiah/107376462</guid>
+      <category>Trains</category>
+      <category>Regional Communities</category>
+      <category>Regional Development and Planning</category>
+      <media:group>
+        <media:description>Fire crews were called to help stranded passengers.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=864&amp;cropW=1536&amp;xPos=0&amp;yPos=723&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=1129&amp;cropW=1129&amp;xPos=149&amp;yPos=696&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=1024&amp;cropW=1536&amp;xPos=0&amp;yPos=723&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=2048&amp;cropW=1536&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=906&amp;cropW=1208&amp;xPos=27&amp;yPos=798&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=2048&amp;cropW=1152&amp;xPos=20&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/e598f43042e0c477419db4144ff921c6?impolicy=wcms_crop_resize&amp;cropH=2048&amp;cropW=1536&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>'I had to have it': Boag's worker wins auction for last Tasmanian brew</title>
+      <link>https://www.abc.net.au/news/2026-11-12/tas-last-boags-red-carton-sold-at-auction/107376544</link>
+      <description>
+        <![CDATA[The final Tasmanian-brewed Boag's Red case is sold at auction for $1,300 to a brewery electrician who says it's going straight on display in his lounge room.]]>
+      </description>
+      <dc:creator>Bec Pridham</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 01:42:56 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/tas-last-boags-red-carton-sold-at-auction/107376544</guid>
+      <category>Alcoholic Drinks</category>
+      <category>Human Interest</category>
+      <category>Food and Beverage Processing Industry</category>
+      <media:group>
+        <media:description>Sam Cox with the last carton of Launceston-brewed Boag's Red.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=1655&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=931&amp;xPos=199&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=1397&amp;xPos=59&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=698&amp;xPos=328&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=1241&amp;xPos=137&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=524&amp;xPos=431&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/c576f172149c8077b179df66ea8a5511?impolicy=wcms_crop_resize&amp;cropH=931&amp;cropW=698&amp;xPos=328&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>How India is marketing its skilled workforce to Australian businesses</title>
+      <link>https://www.abc.net.au/news/2026-11-12/jobs-moving-overseas-to-gcc-tech-centres-in-india-asia/107374082</link>
+      <description>
+        <![CDATA[India has positioned itself as a global hub of skilled, cheap labour, and Australian companies are cashing in and moving more jobs to its shores. ]]>
+      </description>
+      <dc:creator>Rachel Clayton</dc:creator>
+      <pubDate>Thu, 12 Nov 2026 01:09:13 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/jobs-moving-overseas-to-gcc-tech-centres-in-india-asia/107374082</guid>
+      <category>Labour Market</category>
+      <category>Economic Globalisation</category>
+      <category>AI</category>
+      <media:group>
+        <media:description>Qantas is cutting 850 local jobs with some roles to be outsourced to Accenture workers in India.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=2916&amp;cropW=5184&amp;xPos=0&amp;yPos=270&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=3456&amp;xPos=864&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=5184&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=2592&amp;xPos=1296&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=4608&amp;xPos=288&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=1944&amp;xPos=1620&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/161481da55f1c45b529c50645785de42?impolicy=wcms_crop_resize&amp;cropH=3456&amp;cropW=2592&amp;xPos=1296&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Personal data stolen after National Parks booking service hacked in three states</title>
+      <link>https://www.abc.net.au/news/2026-11-12/queensland-parks-booking-system-hacked/107376788</link>
+      <description>
+        <![CDATA[The National Parks booking system for Queensland, Victoria and South Australia has suffered a data breach, with hackers stealing personal user information.]]>
+      </description>
+      <dc:creator>Kenji Sato</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 23:54:20 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/queensland-parks-booking-system-hacked/107376788</guid>
+      <category>Data Privacy</category>
+      <media:group>
+        <media:description>Park users are being warned to keep an eye out for Queensland Parks and Wildlife staff impersonators.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=1937&amp;cropW=3444&amp;xPos=208&amp;yPos=299&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=2268&amp;cropW=2268&amp;xPos=882&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=1748&amp;cropW=2622&amp;xPos=700&amp;yPos=491&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=2268&amp;cropW=1701&amp;xPos=1041&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=2183&amp;cropW=2911&amp;xPos=549&amp;yPos=28&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=2268&amp;cropW=1276&amp;xPos=1378&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/c2134706f465102b12d80281266e1dca?impolicy=wcms_crop_resize&amp;cropH=2268&amp;cropW=1701&amp;xPos=1041&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Police uncover organised thefts during country shoplifting blitz</title>
+      <link>https://www.abc.net.au/news/2026-11-12/shepparton-shoplifters-retail-crime-victoria-police-patrols/107373834</link>
+      <description>
+        <![CDATA[Police say there is evidence of organisation behind retail theft in Shepparton, where an operation targeting repeat offenders has led to more than 200 arrests. ]]>
+      </description>
+      <dc:creator>Philippe Perez</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 23:19:43 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/shepparton-shoplifters-retail-crime-victoria-police-patrols/107373834</guid>
+      <category>Crime</category>
+      <category>Retail Industry</category>
+      <media:group>
+        <media:description>In May, police launched Operation Securus, focusing on retail theft in Shepparton's shopping district.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=1832&amp;cropW=3256&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=3024&amp;cropW=3024&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=2080&amp;cropW=3119&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=3024&amp;cropW=2268&amp;xPos=334&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=2347&amp;cropW=3129&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=3024&amp;cropW=1701&amp;xPos=696&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/40153a831ff534f5976242ccea74b5a1?impolicy=wcms_crop_resize&amp;cropH=3024&amp;cropW=2268&amp;xPos=334&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Superhuman AI bots will not steal this man's job</title>
+      <link>https://www.abc.net.au/news/2026-11-12/ai-impact-on-regional-queensland/107357772</link>
+      <description>
+        <![CDATA[Luke Gnocco remains pretty relaxed about artificial intelligence because, as he points out, "electronics and water usually don't work".]]>
+      </description>
+      <dc:creator>Isabella Garrido</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 22:33:35 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/ai-impact-on-regional-queensland/107357772</guid>
+      <category>Work</category>
+      <category>Robotics</category>
+      <category>Business, Economics and Finance</category>
+      <category>Science and Technology</category>
+      <category>Information Technology Industry</category>
+      <media:group>
+        <media:description>Luke Gnocco is the founder of Poseidon Adventure, which operates out of Townsville and Brisbane.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=2813&amp;xPos=712&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=4220&amp;xPos=8&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=2110&amp;xPos=1063&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=3751&amp;xPos=243&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=1582&amp;xPos=1327&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/fa2c8f071451ae202cb1ba9b3570aa4d?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=2110&amp;xPos=1063&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Developer says gigantic WA data centre will not use fracked gas</title>
+      <link>https://www.abc.net.au/news/2026-11-12/gingerah-concerns-data-centre-fracked-gas/107364340</link>
+      <description>
+        <![CDATA[Concerns about the proposed mega data centre in Western Australia come amid growing opposition to similar facilities in the United States.]]>
+      </description>
+      <dc:creator>Jess Baker</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 22:02:16 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/gingerah-concerns-data-centre-fracked-gas/107364340</guid>
+      <category>Data Centres</category>
+      <category>Oil and Gas</category>
+      <media:group>
+        <media:description>Gingerah Energy's proposed data centre project includes a local micro-grid powered by a 5,200-megawatt solar farm and 250 wind turbines.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=1671&amp;xPos=1&amp;yPos=0&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=940&amp;xPos=367&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=1410&amp;xPos=132&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=705&amp;xPos=485&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=1253&amp;xPos=210&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=529&amp;xPos=573&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/60704f87e7297efe01e6d79a38bec38f?impolicy=wcms_crop_resize&amp;cropH=940&amp;cropW=705&amp;xPos=485&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Commonwealth Bank allegedly overcharged business customers </title>
+      <link>https://www.abc.net.au/news/2026-11-12/asic-sues-commonwealth-bank-alleges-overcharged-millions-in-fees/107376156</link>
+      <description>
+        <![CDATA[Commonwealth Bank allegedly overcharged millions of dollars in fees to tens of thousands of business customers, many of them small businesses, according to the corporate regulator. ]]>
+      </description>
+      <dc:creator>Nassim Khadem</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 22:00:02 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/asic-sues-commonwealth-bank-alleges-overcharged-millions-in-fees/107376156</guid>
+      <category>Banking</category>
+      <category>Financial Services</category>
+      <category>Consumer Protection</category>
+      <category>Business and Industry Regulation</category>
+      <category>Courts</category>
+      <media:group>
+        <media:description>The CBA faces allegations it failed to report cash transactions made through intelligent deposit machines.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=563&amp;cropW=1000&amp;xPos=0&amp;yPos=56&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=667&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=1000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=500&amp;xPos=33&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=889&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=375&amp;xPos=96&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/f998fd577cbd69fffa9535904896ed04?impolicy=wcms_crop_resize&amp;cropH=667&amp;cropW=500&amp;xPos=33&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Developer 'pauses' AI data centre proposal after it 'misread' community feeling</title>
+      <link>https://www.abc.net.au/news/2026-11-12/quantum-dc-pauses-tungkillo-ai-data-centre/107376052</link>
+      <description>
+        <![CDATA[Quantum DC has delayed its proposed hyper-scale AI data centre in the Adelaide Hills after receiving more than 400 questions from the community.]]>
+      </description>
+      <dc:creator>Isabella Carbone</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 21:14:22 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/quantum-dc-pauses-tungkillo-ai-data-centre/107376052</guid>
+      <category>Data Centres</category>
+      <category>Technology</category>
+      <category>AI</category>
+      <media:group>
+        <media:description>A community protest event held in Mannum against the Tungkillo data centre last month.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=260&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=3333&amp;xPos=1667&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=2495&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3330&amp;cropW=4440&amp;xPos=560&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=1875&amp;xPos=2603&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/55df31a9f1d426938f6ee8240202dc21?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=2495&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Nvidia board meets after Jensen Huang allegedly had second affair</title>
+      <link>https://www.abc.net.au/news/2026-11-12/asx-markets-business-news-live-updates-thursday-12-november/107374826</link>
+      <description>
+        <![CDATA[Numerous reports say the Nvidia board is preparing to oust CEO Jensen Huang after he allegedly had two extramarital affairs, including one with a suspected Chinese spy.]]>
+      </description>
+      <dc:creator>Adelaide Miller and David Taylor</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 20:33:21 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/asx-markets-business-news-live-updates-thursday-12-november/107374826</guid>
+      <category>Stock Market</category>
+      <category>Currency</category>
+      <category>Company News</category>
+      <category>Business, Economics and Finance</category>
+      <category>Economic Trends and Indicators</category>
+      <media:group>
+        <media:description>NVIDIA founder Jensen Huang has stepped down from his role as the company's CEO.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=260&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=3333&amp;xPos=834&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1250&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=4444&amp;xPos=278&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=1875&amp;xPos=1563&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/a9303e35f41026c0086f1196d7f6e82f?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=2500&amp;xPos=1250&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Labor pledges to boost regional rail and attacks Liberal costings</title>
+      <link>https://www.abc.net.au/news/2026-11-12/vic-labor-pledges-to-expand-regional-train-services/107375862</link>
+      <description>
+        <![CDATA[Labor is promising a $420 million boost to Victoria's regional rail services while attacking the Liberal leader's commitment to each a cash surplus by 2032.]]>
+      </description>
+      <dc:creator>Rachel Eddie</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 19:23:11 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/vic-labor-pledges-to-expand-regional-train-services/107375862</guid>
+      <category>State and Territory Elections</category>
+      <category>Rail Transport Industry</category>
+      <media:group>
+        <media:description>Labor is promising to increase the number of regional train services if elected.</media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=2813&amp;cropW=5000&amp;xPos=0&amp;yPos=469&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3750&amp;cropW=3750&amp;xPos=625&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3333&amp;cropW=5000&amp;xPos=0&amp;yPos=208&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3750&amp;cropW=2813&amp;xPos=1094&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3750&amp;cropW=5000&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3750&amp;cropW=2109&amp;xPos=1445&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/13e29c287794f293977eb0079ea77ea4?impolicy=wcms_crop_resize&amp;cropH=3750&amp;cropW=2813&amp;xPos=1094&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+    <item>
+      <title>Rising costs hurt South Australia's regional high streets</title>
+      <link>https://www.abc.net.au/news/2026-11-12/mount-gambier-main-street-shopping-empty-retail-businesses-sa/107369408</link>
+      <description>
+        <![CDATA[Several shops in Mount Gambier's economic heart stand empty as rising costs and changing shopping habits take a toll.  ]]>
+      </description>
+      <dc:creator>Sam Bradbrook</dc:creator>
+      <pubDate>Wed, 11 Nov 2026 18:58:04 +0000</pubDate>
+      <guid isPermaLink="true">https://www.abc.net.au/news/2026-11-12/mount-gambier-main-street-shopping-empty-retail-businesses-sa/107369408</guid>
+      <category>Retail Industry</category>
+      <category>Economy</category>
+      <category>Regional Communities</category>
+      <category>Small Businesses</category>
+      <category>Businesses</category>
+      <category>Business, Economics and Finance</category>
+      <media:group>
+        <media:description>Mount Gambier's Commercial Street in 1964, from the Life in Australia film series. </media:description>
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=810&amp;cropW=1440&amp;xPos=0&amp;yPos=121&amp;width=862&amp;height=485"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="485"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=1080&amp;cropW=1080&amp;xPos=310&amp;yPos=0&amp;width=862&amp;height=862"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="862"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=960&amp;cropW=1440&amp;xPos=0&amp;yPos=46&amp;width=862&amp;height=575"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="575"
+            isDefault="true"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=1080&amp;cropW=810&amp;xPos=357&amp;yPos=0&amp;width=862&amp;height=1149"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1149"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=1080&amp;cropW=1440&amp;xPos=0&amp;yPos=0&amp;width=862&amp;height=647"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="647"
+          />
+        <media:content
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=1080&amp;cropW=608&amp;xPos=491&amp;yPos=0&amp;width=862&amp;height=1533"
+            medium="image"
+            type="image/jpeg"
+            width="862"
+            height="1533"
+          />
+        <media:thumbnail
+            url="https://live-production.wcms.abc-cdn.net.au/843f882724510ce94420c0b86007636c?impolicy=wcms_crop_resize&amp;cropH=1080&amp;cropW=810&amp;xPos=357&amp;yPos=0&amp;width=862&amp;height=1149"
+            width="862"
+            height="1149"
+          />
+      </media:group>
+    </item>
+  </channel>
+</rss>

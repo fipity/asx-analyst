@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Backtest · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Backtest &amp; model track record</h1>
+{% if not run %}
+  {% if latest_any and latest_any.status == 'running' %}
+  <p class="warn">The first walk-forward backtest is running (about 30–40 minutes). Progress is on the <a href="/status">Status page</a>.</p>
+  {% elif latest_any and latest_any.status == 'error' %}
+  <p class="warn">The last backtest failed: {{ latest_any.message }}</p>
+  {% else %}
+  <p class="muted">No backtest yet. It runs every Saturday at 02:00, and once automatically after the app first has data.</p>
+  {% endif %}
+{% else %}
+{% set S = run.summary.strategies %}
+{% set bench_name = 'ASX 200 buy-and-hold (STW, incl. dividends)' %}
+{% set bench = S[bench_name] %}
+{% if verdict %}<div class="banner-{{ verdict.level }}"><strong>{{ verdict.text }}</strong>
+  {% if verdict.level == 'bad' %}Treat the signals as an experiment, not a reason to trade.{% endif %}</div>{% endif %}
+{% set qm = run.summary.quality['21_' ~ run.summary.production_variant] %}
+{% if run.summary.model_auc_beat is not none and run.summary.model_auc_beat < auc_skill %}
+<div class="banner-bad">On the locked holdout ({{ run.summary.holdout_start[:4] }} onwards), the model's ranking of which stocks beat the market was barely better than chance
+  (AUC {{ '%.3f'|format(run.summary.model_auc_beat) }}; 0.5 = coin flip). Every signal is therefore shown as <em>low confidence</em>.</div>
+{% endif %}
+
+<div class="notice-box">
+  <strong>Survivorship bias.</strong> {{ run.summary.survivorship }} Free data has no delisted companies, so failures are invisible.
+  As a partial fix, a stock only counts on a date if it was tradable then (price ≥ 20c, ≥ A$1M a day traded, not suspended).
+</div>
+
+<h2>How the test works</h2>
+<ul class="facts">
+  <li>Walk-forward from {{ run.config.test_start|dmy }} to {{ run.summary.last_feature_date|dmy }}: at each of {{ run.summary.rebalances }} monthly
+    rebalances the models are retrained only on data whose outcome was already known (a purge gap equal to the forecast horizon), then pick
+    the top {{ run.config.top_n }} of the {{ run.config.universe|upper }} by the chance of beating the market over the next month.</li>
+  <li>Trades at the <strong>next day's open</strong>, {{ run.config.slippage_bps|round(0)|int }} bps slippage, <strong>A${{ '%.2f'|format(run.config.brokerage) }} brokerage per trade</strong>,
+    whole shares, starting with A${{ '{:,.0f}'.format(run.config.capital) }}. Cash earns nothing. Dividends are reinvested (adjusted prices).</li>
+  <li>Benchmark: buying the ASX 200 ETF (STW) once and holding it, dividends included. Also shown: the plain index (no dividends, no costs).</li>
+  <li>Survivorship control: {{ run.config.top_n }} stocks picked <em>at random</em> from the same eligible list each month, same costs, 20 runs.
+    Anything that can't beat this isn't showing skill.</li>
+  <li>Baselines: <em>momentum</em> (top {{ run.config.top_n }} by 12-month return excluding the last month) and <em>historical odds</em>
+    (how often each stock beat the market over 3 years).</li>
+  <li>Model inputs: price-based indicators, announcements (counts, events, FinBERT tone), ASIC short interest, director trades, dividends,
+    annual financials and market data, all point-in-time. <strong>Fundamentals only exist from Aug 2022</strong> (Yahoo keeps 4 years) and
+    director trades from Nov 2025, so for most of the test the models run without them. RSS news isn't used (collected only since Nov 2026).</li>
+</ul>
+
+<h2>Portfolio results</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Strategy</th><th class="num">Final value</th><th class="num">CAGR</th><th class="num">vs benchmark</th>
+    <th class="num">Volatility</th><th class="num">Sharpe</th><th class="num">Max drawdown</th><th class="num" title="Share of monthly periods that beat buy-and-hold">Months ahead</th>
+    <th class="num">Trades</th><th class="num">Fees</th><th class="num" title="Value traded per year / average portfolio value">Turnover</th></tr></thead>
+  <tbody>{% for name, m in S.items() if m %}
+    <tr class="{{ 'me' if name == bench_name }}"><td>{{ name }}</td>
+      <td class="num">{{ '{:,.0f}'.format(m.final_value) }}</td>
+      <td class="num {{ m.cagr|sign }}">{{ m.cagr|cell('pct') }}</td>
+      <td class="num {{ m.excess_cagr|sign }}">{{ m.excess_cagr|cell('spct') if m.excess_cagr is not none else '' }}</td>
+      <td class="num">{{ m.volatility|cell('pct') }}</td>
+      <td class="num">{{ '%.2f'|format(m.sharpe) if m.sharpe is not none else '—' }}</td>
+      <td class="num down">{{ m.max_drawdown|cell('pct') }}</td>
+      <td class="num">{{ m.hit_rate_vs_bench|cell('pct0') if m.hit_rate_vs_bench is not none else '' }}</td>
+      <td class="num">{{ m.trades }}</td><td class="num">{{ '{:,.0f}'.format(m.fees) }}</td>
+      <td class="num">{{ '%.1f×'|format(m.turnover) if m.turnover is not none else '' }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">Sharpe uses the RBA cash rate as the risk-free rate. CAGR = compound annual growth rate.</p>
+
+{% set lo = run.summary.large_only %}
+{% if lo %}
+<h3>Survivorship check: only stocks that were large at the time</h3>
+<p class="muted">The same rules, but each month only the {{ lo.n }} stocks with the highest trading value <em>on that date</em> can be picked.
+  Today's index includes small companies that later soared; if an edge only exists among those, it's hindsight, not skill.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Strategy</th><th class="num">CAGR</th><th class="num">vs benchmark</th><th class="num">Sharpe</th><th class="num">Max drawdown</th><th class="num">Trades</th></tr></thead>
+  <tbody>{% for name, m in lo.strategies.items() if m %}
+    <tr><td>{{ name }}</td><td class="num {{ m.cagr|sign }}">{{ m.cagr|cell('pct') }}</td>
+      <td class="num {{ m.excess_cagr|sign }}">{{ m.excess_cagr|cell('spct') }}</td>
+      <td class="num">{{ '%.2f'|format(m.sharpe) if m.sharpe is not none else '—' }}</td>
+      <td class="num down">{{ m.max_drawdown|cell('pct') }}</td><td class="num">{{ m.trades }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">Random picks from the top {{ lo.n }}: 80% of 20 runs between {{ lo.random_control.cagr_p10|cell('pct') }} and {{ lo.random_control.cagr_p90|cell('pct') }} a year.
+  Random picks from the full list: {{ run.summary.random_control.cagr_p10|cell('pct') }} to {{ run.summary.random_control.cagr_p90|cell('pct') }}.</p>
+{% endif %}
+
+<div id="bt-chart" class="chart"></div>
+<div class="toggles"><label><input type="checkbox" id="bt-log"> Log scale</label></div>
+<script type="application/json" id="bt-data">{{ run.curves|tojson }}</script>
+
+<h2>Forecast quality (out of sample)</h2>
+<p class="muted">Each prediction was made before its outcome was known. "Baseline A" uses each stock's own past distribution of returns.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Horizon</th><th>Inputs</th><th class="num" title="AUC for 'return > 0'. 0.5 = coin flip">AUC up</th>
+    <th class="num" title="AUC for 'beats the ASX 200'">AUC beat</th><th class="num" title="Average rank correlation of predicted vs actual, per date">Rank IC</th>
+    <th class="num" title="Share of outcomes inside the 10–90% range; should be 80%">Range hit rate</th>
+    <th class="num" title="Quantile (pinball) loss improvement vs baseline A; positive = better">vs baseline A</th>
+    <th class="num">Baseline A AUC up</th><th class="num">Predictions</th></tr></thead>
+  <tbody>
+  {% for key, q in run.summary.quality.items() if q and q.model %}
+    {% set h, v = key.split('_', 1) %}
+    <tr><td>{{ {'5': '1 week', '21': '1 month', '63': '3 months'}[h] }}</td><td>{{ 'with news' if v == 'news' else 'without news' }}{{ ' (used)' if v == run.summary.production_variant }}</td>
+      <td class="num">{{ '%.3f'|format(q.model.auc_up) if q.model.auc_up is not none else '—' }}</td>
+      <td class="num">{{ '%.3f'|format(q.model.auc_beat) if q.model.auc_beat is defined and q.model.auc_beat is not none else '' }}</td>
+      <td class="num">{{ '%.3f'|format(q.model.ic_q50) if q.model.ic_q50 is not none else '—' }}{% if q.model.ic_q50_t is not none %} <span class="muted">(t {{ '%.1f'|format(q.model.ic_q50_t) }})</span>{% endif %}</td>
+      <td class="num">{{ q.model.coverage_80|cell('pct0') }}</td>
+      <td class="num {{ q.pinball_skill_vs_baseline|sign }}">{{ q.pinball_skill_vs_baseline|cell('spct') }}</td>
+      <td class="num">{{ '%.3f'|format(q.baseline_a.auc_up) if q.baseline_a.auc_up is not none else '—' }}</td>
+      <td class="num">{{ '{:,}'.format(q.rows) }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+<p class="muted">An AUC of 0.50 means no better than chance; for monthly stock returns, 0.52–0.55 would already be unusually good.
+  |t| above about 2 suggests the rank correlation isn't just luck.</p>
+
+{% set hs = run.summary.holdout_start %}
+{% if hs and qm and qm.dev is defined %}
+<h2 id="holdout">Locked holdout: {{ hs }} onwards</h2>
+<p class="muted">Results are split in two. <strong>Development</strong> ({{ run.config.test_start|dmy }} to {{ hs }}) is where any design choice may be
+  judged, including which input set is used. The <strong>holdout</strong> ({{ hs }} onwards) is only for the verdict: the model is never changed
+  because of it, so it stays a fair test. The live signal record and the forward-test paper portfolio are the only fully unseen tests.</p>
+{% set d, o = qm.dev, qm.holdout %}
+<div class="table-wrap"><table>
+  <thead><tr><th>1-month forecasts (inputs: {{ 'with news' if run.summary.production_variant == 'news' else 'without news' }})</th>
+    <th class="num">Development</th><th class="num">Holdout</th><th>Good result</th></tr></thead>
+  <tbody>
+    <tr><td>Period</td><td class="num nowrap">{{ d.from or '—' }} – {{ d.to or '' }}</td><td class="num nowrap">{{ o.from or '—' }} – {{ o.to or '' }}</td><td></td></tr>
+    <tr><td>Predictions with a known outcome</td><td class="num">{{ '{:,}'.format(d.rows or 0) }}</td><td class="num">{{ '{:,}'.format(o.rows or 0) }}</td><td></td></tr>
+    <tr><td>AUC: ranking who beats the ASX 200</td>
+      {% for x in (d, o) %}<td class="num">{{ '%.3f'|format(x.auc_beat) if x.auc_beat is not none and x.auc_beat is defined else '—' }}</td>{% endfor %}
+      <td class="muted">0.50 = chance; 0.52+ unusual</td></tr>
+    <tr><td>Rank correlation (IC)</td>
+      {% for x in (d, o) %}<td class="num">{% if x.ic_beat is defined and x.ic_beat is not none %}{{ '%.3f'|format(x.ic_beat) }} <span class="muted">(t {{ '%.1f'|format(x.ic_beat_t) }})</span>{% else %}—{% endif %}</td>{% endfor %}
+      <td class="muted">|t| above 2</td></tr>
+    <tr><td>Chance of beating the market: error score (Brier), raw → calibrated</td>
+      {% for x in (d, o) %}<td class="num nowrap">{% if x.brier_beat_cal is defined %}{{ '%.4f'|format(x.brier_beat_raw) }} → <strong>{{ '%.4f'|format(x.brier_beat_cal) }}</strong>{% else %}—{% endif %}</td>{% endfor %}
+      <td class="muted">lower; must beat always guessing the average:
+        {% for x in (d, o) %}{% if x.brier_beat_base is defined %}{{ '%.4f'|format(x.brier_beat_base) }}{{ ' / ' if loop.first }}{% endif %}{% endfor %}</td></tr>
+    <tr><td>"80%" range contained the outcome, raw → calibrated</td>
+      {% for x in (d, o) %}<td class="num nowrap">{% if x.coverage_cal is defined %}{{ x.coverage_raw|cell('pct0') }} → <strong>{{ x.coverage_cal|cell('pct0') }}</strong>{% else %}—{% endif %}</td>{% endfor %}
+      <td class="muted">80%</td></tr>
+    <tr><td>Below / above the calibrated range</td>
+      {% for x in (d, o) %}<td class="num">{% if x.below_cal is defined %}{{ x.below_cal|cell('pct0') }} / {{ x.above_cal|cell('pct0') }}{% else %}—{% endif %}</td>{% endfor %}
+      <td class="muted">10% / 10%</td></tr>
+    <tr><td>Typical range width, raw → calibrated</td>
+      {% for x in (d, o) %}<td class="num nowrap">{% if x.width_cal is defined %}{{ x.width_raw|cell('pct0') }} → {{ x.width_cal|cell('pct0') }}{% else %}—{% endif %}</td>{% endfor %}
+      <td></td></tr>
+  </tbody>
+</table></div>
+<p class="muted">Calibration is fitted walk-forward too: each month's predictions are adjusted using only earlier predictions whose outcome
+  was already known, so the calibrated numbers above are out of sample. Raw and calibrated are compared on the same predictions
+  (those made once at least {{ '{:,}'.format(2000) }} earlier outcomes were available). Calibration doesn't change the order of stocks, so the AUC and the picks are unchanged.</p>
+
+{% if o.calibration_cal %}
+<h3>Does "55% chance" mean 55%? (holdout, calibrated)</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Calibrated chance of beating the market</th><th class="num">Average prediction</th><th class="num">Actually beat it</th><th class="num">Cases</th></tr></thead>
+  <tbody>{% for b in o.calibration_cal %}
+    <tr><td>{{ b.lo|cell('pct0') }} – {{ b.hi|cell('pct0') }}</td><td class="num">{{ b.predicted|cell('pct') }}</td>
+      <td class="num">{{ b.realised|cell('pct') }}</td><td class="num">{{ '{:,}'.format(b.n) }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">When the model has no skill, calibration pulls every prediction towards the average rate ({{ o.base_rate_beat|cell('pct0') }} here):
+  that's the honest answer, not a fault. Before calibration the predictions ranged from
+  {{ o.calibration_raw[0].predicted|cell('pct0') }} to {{ o.calibration_raw[-1].predicted|cell('pct0') }}.</p>
+{% endif %}
+
+{% set HS = run.summary.holdout_strategies %}
+{% if HS %}
+<h3>Portfolio results on the holdout only</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Strategy</th><th class="num">CAGR</th><th class="num">vs benchmark</th><th class="num">Sharpe</th><th class="num">Max drawdown</th>
+    <th class="num" title="Share of monthly periods that beat buy-and-hold">Months ahead</th></tr></thead>
+  <tbody>{% for name, m in HS.items() if m %}
+    <tr class="{{ 'me' if name == bench_name }}"><td>{{ name }}</td><td class="num {{ m.cagr|sign }}">{{ m.cagr|cell('pct') }}</td>
+      <td class="num {{ m.excess_cagr|sign }}">{{ m.excess_cagr|cell('spct') if m.excess_cagr is not none else '' }}</td>
+      <td class="num">{{ '%.2f'|format(m.sharpe) if m.sharpe is not none else '—' }}</td>
+      <td class="num down">{{ m.max_drawdown|cell('pct') }}</td>
+      <td class="num">{{ m.hit_rate_vs_bench|cell('pct0') if m.hit_rate_vs_bench is not none else '' }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">The same runs as above, measured from {{ hs }} only. Survivorship bias applies here too.</p>
+{% endif %}
+<p class="muted">Model design {{ run.summary.fingerprint }}.
+  {% if designs > 1 %}<strong>{{ designs }} different model designs have been scored on this holdout.</strong> Each extra one makes a good holdout result more likely to be luck.
+  {% else %}This is the only model design scored on this holdout so far.{% endif %}</p>
+{% elif qm and qm.calibration %}
+<h2>Calibration: does "60% chance" mean 60%?</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Predicted chance of beating the market</th><th class="num">Average prediction</th><th class="num">Actually beat it</th><th class="num">Cases</th></tr></thead>
+  <tbody>{% for b in qm.calibration %}
+    <tr><td>{{ b.lo|cell('pct0') }} – {{ b.hi|cell('pct0') }}</td><td class="num">{{ b.predicted|cell('pct') }}</td>
+      <td class="num">{{ b.realised|cell('pct') }}</td><td class="num">{{ '{:,}'.format(b.n) }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+<h2>Run history</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Started</th><th>Finished</th><th>Status</th><th>Note</th></tr></thead>
+  <tbody>{% for h in history %}<tr><td>{{ h.id }}</td><td>{{ h.started_at|time }}</td><td>{{ h.finished_at|time }}</td>
+    <td><span class="badge {{ h.status }}">{{ h.status }}</span></td><td class="msg">{{ h.message or '' }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% if meta %}<p class="muted">Current models: version {{ meta.version }}, trained {{ meta.trained_at|time }} on data up to {{ meta.last_feature_date|dmy }}, inputs: {{ 'with news' if meta.variant == 'news' else 'without news' }}. Retrained every Saturday 02:00.</p>{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{% if run %}
+<script src="/static/vendor/lightweight-charts.standalone.production.js"></script>
+<script src="{{ static_url('backtest.js') }}"></script>
+{% endif %}
+{% endblock %}

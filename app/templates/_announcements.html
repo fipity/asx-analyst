@@ -1,0 +1,18 @@
+{% if not append %}<div class="table-wrap"><table class="anns"><tbody id="ann-rows">{% endif %}
+{% for a in anns %}
+  <tr><td class="nowrap">{{ a.published_at|time }}</td>
+      <td>{% if a.price_sensitive %}<span class="badge ps" title="Price-sensitive">$</span> {% endif %}
+          <a href="{{ a.url }}" rel="noopener" target="_blank">{{ a.headline }}</a>
+          {% if a.pages %}<span class="muted">· {{ a.pages }} p</span>{% endif %}
+          {% for k, label in a.events %}<span class="chip event">{{ label }}</span>{% endfor %}
+          {% if a.sent_label and a.sent_label != 'neutral' %}{% with label=a.sent_label, score=a.sent_score %}{% include "_sent.html" %}{% endwith %}{% endif %}
+          {% if a.ai %}{% with ai=a.ai, open=false %}{% include "_ai.html" %}{% endwith %}{% endif %}</td></tr>
+{% else %}
+  {% if not append %}<tr><td class="muted">No announcements collected.</td></tr>{% endif %}
+{% endfor %}
+{% if anns_more %}
+  <tr id="ann-more"><td colspan="2">
+    <button type="button" class="secondary" hx-get="/company/{{ code }}/announcements?ps={{ ps }}&amp;offset={{ next_offset }}"
+            hx-target="#ann-more" hx-swap="outerHTML">Show more</button></td></tr>
+{% endif %}
+{% if not append %}</tbody></table></div>{% endif %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Paper trading · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Paper trading</h1>
+<p class="muted">Pretend money only; nothing is ever sent to a broker. Orders fill at the next session's opening price
+  (placed before 10:00 on a trading day: that morning) once that day's prices arrive after 4:10pm, with
+  A${{ '%.2f'|format(brokerage) }} brokerage and {{ slippage|round(0)|int }} bps slippage per trade, whole shares only. Dividends are added to cash on the ex-date.
+  Every portfolio is compared with buying the ASX 200 ETF (STW, dividends reinvested) on its first day with the same costs.</p>
+{% if error %}<p class="warn">{{ error }}</p>{% endif %}
+{% if ok %}<p class="ok">{{ ok }}</p>{% endif %}
+
+{% if pfs %}
+<div class="cards">
+  {% for p in pfs %}
+  <div class="card{{ ' sel' if current and p.id == current.id }}"><a class="card-link" href="/paper?id={{ p.id }}">
+    <div class="card-label">{{ p.name }}</div>
+    <div class="card-value small">A${{ '{:,.0f}'.format(p.value) }} <span class="{{ p.ret|sign }}">{{ p.ret|cell('spct') }}</span></div>
+    <div class="muted">ASX 200 same period: {{ p.bench_ret|cell('spct') if p.bench_ret is defined and p.bench_ret is not none else '—' }}
+      · since {{ p.start }}</div>
+  </a></div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="muted">No portfolios yet. The model's forward-test portfolio is created automatically after the first forecasts; you can start your own below.</p>
+{% endif %}
+
+{% if current %}
+{% set d = detail %}
+<div class="row-between"><h2>{{ current.name }}</h2><a class="muted" href="/export/paper/{{ current.id }}.csv">orders CSV</a></div>
+{% if current.kind == 'signals' %}
+<div class="notice-box">This portfolio follows the model automatically, exactly like the backtest's model strategy: it holds the
+  top {{ current.top_n }} stocks by the model's chance of beating the ASX 200 and rebalances every {{ rebalance_days }} trading days
+  (last rebalance on forecasts of {{ current.last_rebalance or '—' }}). Positions that stay in the top {{ current.top_n }} aren't topped up.
+  It started on {{ d.start }}, so unlike the backtest, its record is genuinely out of sample, and free of survivorship bias from that day on.
+  {% if not skilled %}<strong>The model showed no skill in testing, so expect roughly market-like or worse results.</strong>{% endif %}</div>
+{% endif %}
+<div class="cards stats">
+  <div class="card"><div class="card-label">Value</div><div class="card-value small">A${{ '{:,.0f}'.format(d.value) }}</div>
+    <div class="muted">started with A${{ '{:,.0f}'.format(current.capital) }}</div></div>
+  <div class="card"><div class="card-label">Profit / loss</div><div class="card-value small {{ d.pnl|sign }}">{{ d.pnl|smoney }}</div>
+    <div class="{{ d.ret|sign }}">{{ d.ret|cell('spct') }}</div></div>
+  <div class="card"><div class="card-label">ASX 200 (STW) same period</div>
+    <div class="card-value small {{ d.bench_ret|sign }}">{{ d.bench_ret|cell('spct') if d.bench_ret is defined else '—' }}</div>
+    {% if d.bench_ret is defined %}<div class="muted">{{ 'ahead' if d.ret > d.bench_ret else 'behind' }} by {{ ((d.ret - d.bench_ret)|abs)|cell('pct') }}</div>{% endif %}</div>
+  <div class="card"><div class="card-label">Cash</div><div class="card-value small">A${{ '{:,.0f}'.format(d.cash) }}</div></div>
+  <div class="card"><div class="card-label">Dividends · fees</div><div class="card-value small">{{ '{:,.0f}'.format(d.dividends) }} · {{ '{:,.0f}'.format(d.fees) }}</div>
+    <div class="muted">{{ d.trades }} trades</div></div>
+  <div class="card"><div class="card-label">Max drawdown</div><div class="card-value small">{{ d.max_dd|cell('pct') if d.max_dd is defined else '—' }}</div>
+    <div class="muted">{{ d.days }} trading days</div></div>
+</div>
+{% if d.days > 1 %}
+<div class="mini" data-curves="pp-data"></div>
+<script type="application/json" id="pp-data">{{ [[current.name, d.curve_pts], ['ASX 200 buy-and-hold (STW)', d.bench_pts]]|tojson }}</script>
+{% else %}
+<p class="muted">The value chart appears after the first trading days.</p>
+{% endif %}
+{% if d.days and d.days < 60 %}<p class="muted">Only {{ d.days }} trading days so far: far too short to judge anything.</p>{% endif %}
+
+<h3>Positions</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th><th>Company</th><th class="num">Shares</th><th class="num">Avg cost</th><th class="num">Last</th>
+    <th class="num">Value</th><th class="num">Weight</th><th class="num">P/L</th><th class="num">Dividends</th><th>Since</th><th>Signal now</th></tr></thead>
+  <tbody>{% for p in d.positions %}
+    <tr><td><a href="/company/{{ p.code }}"><strong>{{ p.code }}</strong></a></td><td class="name">{{ p.name|coname }}</td>
+      <td class="num">{{ '{:,.0f}'.format(p.qty) }}</td><td class="num">{{ p.avg_cost|cell('price') }}</td><td class="num">{{ p.price|cell('price') }}</td>
+      <td class="num">{{ '{:,.0f}'.format(p.value) }}</td><td class="num">{{ p.weight|cell('pct') }}</td>
+      <td class="num {{ p.pnl|sign }}">{{ p.pnl|smoney }} <span class="muted">{{ p.pnl_pct|cell('spct') }}</span></td>
+      <td class="num">{{ '{:,.0f}'.format(p.dividends) }}</td><td>{{ p.since }}</td>
+      <td>{% if p.signal %}<span class="sig sig-{{ p.signal|lower }}{{ ' nosk' if not skilled }}">{{ p.signal }}</span>{% endif %}</td></tr>
+  {% else %}<tr><td colspan="11" class="muted">No positions.</td></tr>{% endfor %}</tbody>
+</table></div>
+
+{% if current.kind == 'manual' %}
+<h3>Place an order</h3>
+<form class="form-row" method="post" action="/paper/{{ current.id }}/order">
+  <label>ASX code <input name="code" required value="{{ code }}" autocapitalize="characters" autocomplete="off"></label>
+  <label>Side <select name="side"><option value="buy">Buy</option><option value="sell">Sell</option></select></label>
+  <label>Size <select name="size_type">
+    <option value="quantity">Number of shares</option><option value="amount">A$ amount (buy)</option><option value="all">Whole position (sell)</option></select></label>
+  <label>Shares or A$ <input name="size" type="number" min="0" step="any" inputmode="decimal"></label>
+  <button type="submit">Place order</button>
+</form>
+<p class="muted">Market orders only. A buy larger than your cash is cut down to what you can afford; buys by amount must be at least A${{ min_trade|int }}.</p>
+{% endif %}
+
+<h3>Pending orders</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Placed</th><th>Code</th><th>Side</th><th class="num">Size</th><th>Fills from</th><th>Reason</th><th></th></tr></thead>
+  <tbody>{% for o in pending %}
+    <tr><td>{{ o.placed_at|time }}</td><td><a href="/company/{{ o.code }}">{{ o.code }}</a></td><td>{{ o.side }}</td>
+      <td class="num">{{ o.quantity if o.quantity else ('A$' ~ '{:,.0f}'.format(o.amount) if o.amount else 'all') }}</td>
+      <td>{{ o.exec_after }} open</td><td>{{ o.reason or '' }}</td>
+      <td><form method="post" action="/paper/{{ current.id }}/cancel/{{ o.id }}" class="inline-form"><button class="link">cancel</button></form></td></tr>
+  {% else %}<tr><td colspan="7" class="muted">None.</td></tr>{% endfor %}</tbody>
+</table></div>
+
+<h3>Order history</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Date</th><th>Code</th><th>Side</th><th>Status</th><th class="num">Shares</th><th class="num">Price</th><th class="num">Value</th><th class="num">Fee</th><th>Reason / note</th></tr></thead>
+  <tbody>{% for o in history %}
+    <tr{% if o.status != 'filled' %} class="past"{% endif %}><td>{{ o.filled_date|dmy or (o.placed_at|time) }}</td><td><a href="/company/{{ o.code }}">{{ o.code }}</a></td>
+      <td><span class="badge trade-{{ o.side }}">{{ o.side }}</span></td><td>{{ o.status }}</td>
+      <td class="num">{{ o.filled_qty or '' }}</td><td class="num">{{ o.price|cell('price') if o.price else '' }}</td>
+      <td class="num">{{ '{:,.0f}'.format(o.value) if o.value else '' }}</td><td class="num">{{ o.fee or '' }}</td>
+      <td class="msg">{{ o.reason or '' }}{% if o.message %} · {{ o.message }}{% endif %}{% if o.signal_date %} (forecast {{ o.signal_date|dmy }}){% endif %}</td></tr>
+  {% else %}<tr><td colspan="9" class="muted">No trades yet.</td></tr>{% endfor %}</tbody>
+</table></div>
+{% if current.kind == 'manual' %}
+<form method="post" action="/paper/{{ current.id }}/close" onsubmit="return confirm('Close this paper portfolio? It will be hidden and its pending orders cancelled.')">
+  <p><button class="link">Close this portfolio</button></p></form>
+{% endif %}
+{% endif %}
+
+<h2>Start a new paper portfolio</h2>
+<form class="form-row" method="post" action="/paper/new">
+  <label>Name <input class="wide" name="name" required maxlength="60" placeholder="e.g. My picks"></label>
+  <label>Starting cash (A$) <input name="capital" type="number" min="1000" step="1000" value="{{ capital|int }}"></label>
+  <button type="submit">Create</button>
+</form>
+{% endblock %}
+{% block scripts %}
+{% if current and detail.days > 1 %}
+<script src="/static/vendor/lightweight-charts.standalone.production.js"></script>
+<script src="{{ static_url('curves.js') }}"></script>
+{% endif %}
+{% endblock %}

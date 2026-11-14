@@ -1,0 +1,4 @@
+<p class="muted">{{ items|length }}{{ '+' if more }} stor{{ 'y' if items|length == 1 else 'ies' }}{% if days %} from the last {{ days }} day{{ 's' if days != 1 }}{% endif %}. Duplicate stories across sources are shown once.</p>
+<div class="news-list">
+{% with more_url=next_url if more else None %}{% include "_news_items.html" %}{% endwith %}
+</div>

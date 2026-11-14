@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Alerts · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Alerts</h1>
+{% if error %}<p class="warn">{{ error }}</p>{% endif %}
+{% if ok %}<p class="ok">{{ ok }}</p>{% endif %}
+<div class="notice-box">
+  {% if channels %}Sending to: <strong>{{ channels|join(' and ') }}</strong>{% if 'ntfy' in channels %} (topic <code>{{ s.ntfy_topic }}</code> on {{ s.ntfy_url }}){% endif %}.
+  {% else %}<strong>Alerts are off.</strong> Set <code>NTFY_URL</code> + <code>NTFY_TOPIC</code> (e.g. https://ntfy.sh or your own ntfy server) and/or
+    <code>WEBHOOK_URL</code> in <code>.env</code>, then run <code>docker compose up -d</code>. Until then, alerts are only listed below.{% endif %}
+  <br>Quiet hours {{ s.quiet_hours_start }}–{{ s.quiet_hours_end }} (Sydney){% if quiet %}, <strong>now in effect</strong>{% endif %}: alerts wait and are sent when they end (dropped after 2 days).
+  <br>Alerting on: {% for on, label in ((s.alert_signals, 'signal changes'), (s.alert_announcements, 'price-sensitive announcements'), (s.alert_jobs, 'failed jobs')) %}{{ label }} {{ '✓' if on else '✗ (off)' }}{{ ', ' if not loop.last }}{% endfor %}.
+  <br>Stocks followed: {% if follow %}{% for k, why in follow|dictsort %}<a href="/company/{{ k }}">{{ k }}</a> <span class="muted">({{ why }})</span>{{ ', ' if not loop.last }}{% endfor %}
+  {% else %}none yet: add stocks to your <a href="/watchlist">watchlist</a> or <a href="/holdings">holdings</a>.{% endif %}
+</div>
+<form method="post" action="/alerts/test"><button type="submit">Send a test alert</button></form>
+
+<h2>Recent alerts</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>When</th><th>Kind</th><th>Alert</th><th>Status</th></tr></thead>
+  <tbody>{% for a in rows %}
+    <tr><td class="nowrap">{{ a.created_at|time }}</td><td>{{ a.kind }}</td>
+      <td><strong>{{ a.title }}</strong>{% if a.body %}<div class="muted">{{ a.body }}</div>{% endif %}</td>
+      <td><span class="badge {{ 'ok' if a.status == 'sent' else 'error' if a.status == 'failed' else 'partial' }}">{{ a.status }}</span>
+        {% if a.channels %}<span class="muted">{{ a.channels }}</span>{% endif %}{% if a.error %}<div class="msg">{{ a.error }}</div>{% endif %}</td></tr>
+  {% else %}<tr><td colspan="4" class="muted">None yet.</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="muted">"skipped" = no channel configured when it happened; "queued" = waiting for quiet hours to end.</p>
+{% endblock %}

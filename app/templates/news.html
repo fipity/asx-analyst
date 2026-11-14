@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}News · ASX Analyst{% endblock %}
+{% block content %}
+<h1>News</h1>
+<details class="filters-box" id="filters-box" open>
+<summary>Filters</summary>
+<form id="news-form" class="filters" method="get" action="/news"
+      hx-get="/news" hx-target="#news-results" hx-push-url="true" hx-trigger="input changed delay:400ms, change, submit"
+      hx-on:htmx:config-request="for (const [k, v] of [...Object.entries(event.detail.parameters)]) if (v === '') delete event.detail.parameters[k]">
+  <label>Search<input type="search" name="q" value="{{ params.q }}" placeholder="Words in headline"></label>
+  <label>Company code<input type="text" name="code" value="{{ params.code }}" placeholder="e.g. CBA" maxlength="6" autocapitalize="characters"></label>
+  <label>Show
+    <select name="scope">
+      <option value="">All news</option>
+      <option value="company" {{ 'selected' if params.scope == 'company' }}>Linked to a company</option>
+      <option value="macro" {{ 'selected' if params.scope == 'macro' }}>Macro / economy</option>
+    </select></label>
+  <label>Source
+    <select name="source"><option value="">All sources</option>
+      {% for f in feeds %}<option value="{{ f.key }}" {{ 'selected' if params.source == f.key }}>{{ f.name }}</option>{% endfor %}
+    </select></label>
+  <label>Event
+    <select name="event"><option value="">Any</option>
+      {% for k, v in events.items() %}<option value="{{ k }}" {{ 'selected' if params.event == k }}>{{ v }}</option>{% endfor %}
+    </select></label>
+  <label>Theme
+    <select name="macro"><option value="">Any</option>
+      {% for k, v in macros.items() %}<option value="{{ k }}" {{ 'selected' if params.macro == k }}>{{ v }}</option>{% endfor %}
+    </select></label>
+  <label>Sentiment
+    <select name="sentiment"><option value="">Any</option>
+      {% for k, v in sentiments.items() %}<option value="{{ k }}" {{ 'selected' if params.sentiment == k }}>{{ v }}</option>{% endfor %}
+    </select></label>
+  <label>Period
+    <select name="days">
+      {% for d, l in ((1, 'Last day'), (7, 'Last 7 days'), (30, 'Last 30 days'), (90, 'Last 90 days'), (0, 'Everything')) %}
+      <option value="{{ d }}" {{ 'selected' if days == d }}>{{ l }}</option>{% endfor %}
+    </select></label>
+  <div class="filter-actions"><noscript><button type="submit">Apply</button></noscript><a href="/news">Reset</a></div>
+</form>
+</details>
+<div id="news-results">{% include "_news_results.html" %}</div>
+
+<h2>About this page</h2>
+<p class="muted">Headlines and short summaries from {% for s in sources %}{{ s.name }} ({{ s.items }}){{ ', ' if not loop.last }}{% endfor %},
+  polled every 30 minutes in market hours and hourly otherwise. Only the headline, link, time and a short summary are kept; click through for the article.
+  Collection started on {{ (sources|map(attribute='latest')|select|min or '')[:10] or 'first poll' }}, so there's no older RSS news.
+  ASX announcements are on each company page.</p>
+<p class="muted">Company links come from names, common aliases and explicit codes ("ASX: CBA"). A faded code means the company is only mentioned in the summary.
+  Sentiment is FinBERT's reading of the headline and summary, from −1 (negative) to +1 (positive).{% if not model_ok %} <strong>The FinBERT model isn't installed, so sentiment is blank.</strong>{% endif %}
+  It's a noisy signal: the model sometimes misreads headlines.</p>
+<p class="muted">Themes and the sectors they mostly affect:
+  {% for k, v in macros.items() %}{{ v }} → {{ macro_sectors[k]|join(', ') }}{{ '; ' if not loop.last else '.' }}{% endfor %}</p>
+{% endblock %}
+{% block scripts %}
+<script>
+  (function () {
+    const box = document.getElementById("filters-box");
+    const used = [...new URLSearchParams(location.search).entries()].some(([k, v]) => v);
+    if (box && window.matchMedia("(max-width: 600px)").matches && !used) box.removeAttribute("open");
+  })();
+</script>
+{% endblock %}

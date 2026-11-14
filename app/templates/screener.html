@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Screener · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Screener <span class="muted">{{ universe_label }}</span></h1>
+<details class="filters-box" id="filters-box" open>
+<summary>Filters</summary>
+<form id="screener-form" class="filters" method="get" action="/screener"
+      hx-get="/screener" hx-target="#screener-results" hx-push-url="true"
+      hx-trigger="input changed delay:400ms, change, submit"
+      hx-on:htmx:config-request="for (const [k, v] of [...Object.entries(event.detail.parameters)]) if (v === '') delete event.detail.parameters[k]">
+  <label>Search<input type="search" name="q" value="{{ params.q }}" placeholder="Code or name"></label>
+  <label>Sector
+    <select name="sector">
+      <option value="">All sectors</option>
+      {% for s in sectors %}<option {{ 'selected' if params.sector == s }}>{{ s }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Trend
+    <select name="trend">
+      <option value="">Any</option>
+      {% for k, label in trends.items() %}<option value="{{ k }}" {{ 'selected' if params.trend == k }}>{{ label }}</option>{% endfor %}
+    </select>
+  </label>
+  {% for key, (col, op, mult, label, unit) in filters.items() %}
+  <label>{{ label }}{% if unit %} ({{ unit }}){% endif %}
+    <input type="number" step="any" inputmode="decimal" name="{{ key }}" value="{{ params[key] }}">
+  </label>
+  {% endfor %}
+  <div class="filter-actions">
+    <noscript><button type="submit">Apply</button></noscript>
+    <a href="/screener">Reset</a>
+  </div>
+</form>
+</details>
+<div id="screener-results">
+{% include "_screener_table.html" %}
+</div>
+<p class="muted">Returns are total returns including dividends (Yahoo dividend-adjusted prices). Gross yield adds
+franking credits at the 30% company tax rate. Fundamentals come from Yahoo (unofficial) and ASX key statistics and can be
+out of date or missing; companies reporting in USD (e.g. BHP) have their per-share figures converted by Yahoo where it can.
+Short % is ASIC's aggregated short position, published with a lag of about 4 business days.</p>
+<p class="muted">Scores (0–100) rank each company against its sector on valuation, quality, growth and dividends;
+50 is the sector middle. They describe the numbers as reported. They are not forecasts or buy/sell signals.
+Trend and RSI are descriptive too.</p>
+{% endblock %}

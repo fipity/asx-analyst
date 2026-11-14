@@ -1,0 +1,6 @@
+{# AI summary block for an announcement. Needs `ai` (dict from news.ai.for_ids). #}
+<details class="ai-sum"{% if open %} open{% endif %}><summary><span class="badge ai" title="Written by {{ ai.model }} from the announcement PDF; may contain mistakes">AI summary</span>
+  <span class="tone-{{ ai.tone }}">{{ ai.tone }}</span></summary>
+  <p>{{ ai.summary }}</p>
+  {% if ai.key_points %}<ul class="facts">{% for p in ai.key_points %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}
+</details>

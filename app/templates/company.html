@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+{% block title %}{{ comp.code }} · {{ comp.name|coname }} · ASX Analyst{% endblock %}
+{% block content %}
+<div class="company-head">
+  <div>
+    <h1>{{ comp.code }} <span class="company-name">{{ comp.name|coname }}</span></h1>
+    <div class="muted">
+      {{ comp.sector or 'Sector unknown' }}{% if fund.industry %} · {{ fund.industry }}{% endif %}
+      {% for i in comp.indices %}<span class="badge">{{ i|upper|replace('ASX', 'ASX ') }}</span>{% endfor %}
+      {% if comp.code not in universe_codes %}<span class="badge">outside {{ universe_label }}</span>{% endif %}
+    </div>
+  </div>
+  <div class="quote">
+    <div>{% with code=comp.code %}{% include "_watch_button.html" %}{% endwith %}
+      <a class="muted" href="/paper?code={{ comp.code }}" title="Practise trading it with pretend money">paper trade</a>
+      · <a class="muted" href="/holdings?code={{ comp.code }}" title="Record shares you own">record a holding</a></div>
+    <div class="card-value">{{ me.price|cell('price') }}</div>
+    {% if me.chg_1d is not none %}<div class="{{ me.chg_1d|sign }}">{{ me.chg_1d|cell('spct') }}</div>{% endif %}
+    <div class="muted">close {{ me.price_date|dmy or '—' }}{% if me.stale %} · <span class="warn-inline">no trade since</span>{% endif %}</div>
+  </div>
+</div>
+
+<div class="cards stats">
+  <div class="card"><div class="card-label">Market cap</div><div class="card-value small">A${{ me.market_cap|money }}</div></div>
+  <div class="card"><div class="card-label">P/E · fwd</div>
+    <div class="card-value small">{{ 'loss' if fund.pe is none and fund.loss_making else fund.pe|cell('ratio') }} · {{ fund.forward_pe|cell('ratio') }}</div></div>
+  <div class="card"><div class="card-label">P/B</div><div class="card-value small">{{ fund.pb|cell('ratio') }}</div></div>
+  <div class="card"><div class="card-label">Yield · gross</div>
+    <div class="card-value small">{{ fund.dividend_yield|cell('pct') }} · {{ fund.gross_yield|cell('pct') }}</div>
+    <div class="muted">{{ fund.franking_pct|cell('pct100') }} franked</div></div>
+  <div class="card"><div class="card-label">ROE · margin</div>
+    <div class="card-value small">{{ fund.roe|cell('pct') }} · {{ fund.profit_margin|cell('pct') }}</div></div>
+  <div class="card"><div class="card-label">Debt / equity</div><div class="card-value small">{{ fund.debt_to_equity|cell('ratio') }}</div></div>
+  <div class="card"><div class="card-label">Short position</div>
+    <div class="card-value small">{{ me.short_pct|cell('pct100') }}</div>
+    <div class="muted" title="ASIC report date {{ me.short_date|dmy or '—' }}; change over ~20 reports">{% if me.short_chg is not none %}{{ me.short_chg|cell('pp') }} pp in 20 reports{% endif %}</div></div>
+  <div class="card"><div class="card-label">52-week range</div>
+    <div class="card-value small">{{ me.low_52w|cell('price') }} – {{ me.high_52w|cell('price') }}</div>
+    <div class="muted">{{ me.off_high|cell('spct') }} from high</div></div>
+</div>
+{% if fund.currency and fund.currency != 'AUD' %}
+<p class="muted">Reports in {{ fund.currency }}. Financials below are in {{ fund.currency }}; dividends are per share in A$ unless marked; ratios are unaffected.</p>
+{% endif %}
+
+<h2>Price chart</h2>
+<div id="chart-wrap" class="chart-wrap">
+<div class="chart-controls">
+  <div class="seg" role="group" aria-label="Range">
+    {% for r in ('1M', '3M', '6M', '1Y', '3Y', '5Y', '10Y', 'Max') %}
+    <button type="button" data-range="{{ r }}" class="{{ 'active' if r == '1Y' }}">{{ r }}</button>
+    {% endfor %}
+  </div>
+  <div class="seg" role="group" aria-label="Bar interval">
+    {% for k, lbl, t in (('D', 'Daily', 'One bar per trading day'), ('W', 'Weekly', 'One bar per week'), ('M', 'Monthly', 'One bar per month')) %}
+    <button type="button" data-interval="{{ k }}" title="{{ t }}" class="{{ 'active' if k == 'D' }}">{{ lbl }}</button>
+    {% endfor %}
+  </div>
+  <div class="toggles">
+    <label><input type="checkbox" data-overlay="dividend" checked> <span class="dot div"></span>Dividends</label>
+    <label><input type="checkbox" data-overlay="announcement" checked> <span class="dot ann"></span>Price-sensitive announcements</label>
+    <label><input type="checkbox" data-overlay="trades" checked> <span class="dot buy"></span><span class="dot sell"></span>Director buys/sells</label>
+    <label><input type="checkbox" data-overlay="shorts" checked> Short %</label>
+    <label><input type="checkbox" data-overlay="candles"> Candles</label>
+  </div>
+  <div class="toggles">
+    <label><input type="checkbox" data-ind="sma20"> <span class="dot sma20"></span><span>20-<span data-unit>day</span> avg</span></label>
+    <label><input type="checkbox" data-ind="sma50" checked> <span class="dot sma50"></span><span>50-<span data-unit>day</span> avg</span></label>
+    <label><input type="checkbox" data-ind="sma200" checked> <span class="dot sma200"></span><span>200-<span data-unit>day</span> avg</span></label>
+    <label><input type="checkbox" data-ind="bb"> Bollinger bands</label>
+    <label><input type="checkbox" data-ind="rsi"> RSI</label>
+    <label><input type="checkbox" data-ind="macd"> MACD</label>
+  </div>
+  <button type="button" id="chart-opts" class="secondary small chart-opts" aria-expanded="false">Options</button>
+  <button type="button" id="chart-fs" class="secondary small chart-fs" aria-pressed="false" title="Full screen (F)">⛶ Full screen</button>
+</div>
+<div id="chart" class="chart" data-code="{{ comp.code }}"><div class="muted chart-loading">Loading chart…</div></div>
+<div id="chart-legend" class="chart-legend muted">Hover or tap the chart to see the day's prices and events.</div>
+</div>
+
+<h2>Forecast</h2>
+{% set f21 = forecasts.get(21) %}
+{% if f21 %}
+<div class="forecast-head">
+  <span class="sig sig-{{ f21.signal|lower }} big{{ ' nosk' if not skilled }}" title="{{ 'Unproven model: no tested skill' if not skilled }}">{{ f21.signal }}</span>
+  <span>Confidence: <strong>{{ f21.confidence }}</strong>{% if f21.rank %} · rank {{ f21.rank }} of {{ n_ranked }}{% endif %}</span>
+  <span class="muted">as of close {{ f21.as_of_date|dmy }}</span>
+</div>
+{% if model_meta and (model_meta.auc_beat is none or model_meta.auc_beat < auc_skill) %}
+<p class="warn">In testing, these models showed no reliable skill at beating the market, so treat this as an experiment. <a href="/backtest">See the backtest</a>.</p>
+{% endif %}
+<div class="table-wrap"><table class="fc">
+  <thead><tr><th>Over the next</th><th class="num">Chance up</th><th>Likely range (10–90%)</th><th class="num">Median</th></tr></thead>
+  <tbody>{% for h, label in ((5, '1 week'), (21, '1 month'), (63, '3 months')) %}{% set f = forecasts.get(h) %}{% if f %}
+    <tr><td>{{ label }}</td><td class="num">{{ f.p_up|cell('pct0') }}</td>
+      <td>{% set lo, hi = f.q10, f.q90 %}{% set span = [0.6, (hi - lo)|abs]|max %}
+        <div class="rangebar" title="{{ lo|cell('spct') }} to {{ hi|cell('spct') }}">
+          <span class="zero"></span>
+          <span class="band" style="left: {{ (50 + lo * 100 / span * 0.8)|round(1) }}%; width: {{ ((hi - lo) * 100 / span * 0.8)|round(1) }}%"></span>
+          <span class="mid" style="left: {{ (50 + f.q50 * 100 / span * 0.8)|round(1) }}%"></span>
+        </div>
+        <span class="muted">{{ lo|cell('spct') }} to {{ hi|cell('spct') }}</span></td>
+      <td class="num {{ f.q50|sign }}">{{ f.q50|cell('spct') }}</td></tr>
+  {% endif %}{% endfor %}</tbody>
+</table></div>
+<p>Chance of beating the ASX 200 (incl. dividends) over the next month: <strong>{{ f21.p_beat|cell('pct0') }}</strong>,
+  expected difference {{ f21.ex50|cell('spct') }}.</p>
+{% if why and (why.for or why.against) %}
+<div class="two-col">
+  <div><h3>What pushes the odds up</h3><ul class="facts">{% for w in why.for %}<li>{{ w.label|capitalize }}: {{ w.value }}{% if w.news %} (<a href="#anns" onclick="document.querySelector('[hx-get$=\'ps=1\']').click()">price-sensitive announcements</a>){% endif %}</li>{% else %}<li class="muted">Nothing stands out.</li>{% endfor %}</ul></div>
+  <div><h3>What pushes them down</h3><ul class="facts">{% for w in why.against %}<li>{{ w.label|capitalize }}: {{ w.value }}{% if w.news %} (<a href="#anns" onclick="document.querySelector('[hx-get$=\'ps=1\']').click()">price-sensitive announcements</a>){% endif %}</li>{% else %}<li class="muted">Nothing stands out.</li>{% endfor %}</ul></div>
+</div>
+{% endif %}
+{% with top_n=None, live=None %}{% include "_signal_record.html" %}{% endwith %}
+{% if sig_history %}
+<h3>Signal history <span class="muted">each change, with the next 21 trading days vs the ASX 200 (STW)</span></h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>From close</th><th>Signal</th><th class="num">Chance to beat</th><th class="num">Stock</th><th class="num">ASX 200</th><th class="num">Difference</th><th></th></tr></thead>
+  <tbody>{% for h in sig_history %}
+    <tr><td>{{ h.as_of_date|dmy }}</td><td><span class="sig sig-{{ h.signal|lower }}{{ ' nosk' if not skilled }}">{{ h.signal }}</span></td>
+      <td class="num">{{ h.p_beat|cell('pct0') }}</td><td class="num {{ h.ret|sign }}">{{ h.ret|cell('spct') }}</td>
+      <td class="num">{{ h.bench_ret|cell('spct') }}</td><td class="num {{ h.excess|sign }}">{{ h.excess|cell('spct') }}</td>
+      <td class="muted">{% if not h.matured %}so far ({{ h.days }} of 21 days){% elif h.hit is true %}right{% elif h.hit is false %}wrong{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% endif %}
+<p class="muted">Model forecasts (LightGBM) from price history, announcements, short interest and market data. Ranges and chances, never price targets.
+  Not financial advice; see the <a href="/backtest">backtest</a> for how such forecasts have done.</p>
+{% else %}
+<p class="muted">No forecast yet{{ ' (only ' ~ universe_label ~ ' members are forecast)' if comp.code not in universe_codes }}. Forecasts appear after model training.</p>
+{% endif %}
+
+<div class="two-col">
+<section>
+  <h2>Fundamental scores</h2>
+  {% if score %}
+  <p class="muted">Ranked against {{ score.sector_n }} {{ comp.sector }} companies in the {{ universe_label }}, 0–100, where 50 is the sector middle.
+    {% if score.sector_rank %}Overall rank: <strong>{{ score.sector_rank }} of {{ score.sector_ranked }}</strong>.{% endif %}
+    As of {{ score.as_of_date|dmy }}.</p>
+  <div class="scorebars">
+    {% for g in score_groups %}
+    <div class="scorebar" title="{{ g.coverage }} metrics available">
+      <span>{{ g.label }}</span>
+      <div class="track"><div class="fill {{ g.score|scorecls }}" style="width: {{ (g.score or 0)|round(0) }}%"></div></div>
+      <span class="num">{{ g.score|cell('score') }}</span>
+    </div>
+    {% endfor %}
+    <div class="scorebar overall">
+      <span>Overall</span>
+      <div class="track"><div class="fill {{ score.composite|scorecls }}" style="width: {{ (score.composite or 0)|round(0) }}%"></div></div>
+      <span class="num">{{ score.composite|cell('score') }}</span>
+    </div>
+  </div>
+  <details class="metrics">
+    <summary>What's behind the scores</summary>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Metric</th><th class="num">Value</th><th>vs sector</th></tr></thead>
+      <tbody>
+      {% for g in score_groups %}
+        <tr><td colspan="3"><strong>{{ g.label }}</strong> <span class="muted">({{ g.coverage }} metrics available)</span></td></tr>
+        {% for m in g.metrics %}
+        <tr title="{{ m.help }}{{ ' Lower is better.' if not m.higher and 'Lower' not in m.help }}">
+          <td>{{ m.label }}</td>
+          <td class="num">{{ m.value|cell(m.fmt if m.fmt != 'int' else 'ratio0') if not (m.key == 'earnings_yield' and m.value is not none and m.value < 0) else 'loss' }}</td>
+          <td>{% if m.pct is not none %}<span class="pctbar"><span style="width: {{ m.pct|round(0) }}%"></span></span>{{ m.pct|cell('score') }}{% else %}<span class="muted">no data</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table></div>
+    <p class="muted">Each metric is a percentile within the sector (blended towards the whole {{ universe_label }} when the sector is small).
+      A category is the average of its available metrics, and Overall averages the four categories. Inputs are Yahoo and ASX figures as reported,
+      some of them a year old. Scores describe the numbers; they don't predict returns.</p>
+  </details>
+  {% elif comp.code not in universe_codes %}
+  <p class="muted">Scores are only calculated for companies in the {{ universe_label }}, so they can be ranked against their sector.</p>
+  {% else %}
+  <p class="muted">Not scored yet. Scores are calculated after each daily update.</p>
+  {% endif %}
+</section>
+<section>
+  <h2>Technical picture</h2>
+  {% if tech %}
+  <ul class="facts">{% for f in tech_facts %}<li>{{ f }}</li>{% endfor %}</ul>
+  <div class="ind-grid">
+    <div><span>50-day avg</span><span>{{ tech.sma50|cell('price') }}</span></div>
+    <div><span>200-day avg</span><span>{{ tech.sma200|cell('price') }}</span></div>
+    <div><span>RSI (14)</span><span>{{ tech.rsi14|cell('ratio0') }}</span></div>
+    <div><span>MACD hist.</span><span>{{ '%.3f'|format(tech.macd_hist) if tech.macd_hist is not none else '—' }}</span></div>
+    <div><span>Bollinger %B</span><span>{{ tech.bb_pctb|cell('ratio') if tech.bb_pctb is none else '%.2f'|format(tech.bb_pctb) }}</span></div>
+    <div><span>12-1m momentum</span><span class="{{ tech.mom_12_1|sign }}">{{ tech.mom_12_1|cell('spct') }}</span></div>
+    <div><span>Volatility 20d</span><span>{{ tech.vol_20d|cell('pct0') }}</span></div>
+    <div><span>Volatility 60d</span><span>{{ tech.vol_60d|cell('pct0') }}</span></div>
+  </div>
+  <p class="muted">As of {{ tech.date|dmy }}. Descriptive only, not buy/sell signals. Turn on the averages, Bollinger bands, RSI and MACD on the chart above.</p>
+  {% else %}<p class="muted">Not enough price history.</p>{% endif %}
+</section>
+</div>
+
+<h2>Returns</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th></th>{% for p in periods %}<th class="num">{{ p }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for r in returns %}
+    <tr><td>{{ r.label }}</td>{% for p in periods %}<td class="num {{ r[p]|sign }}">{{ r[p]|cell('spct') }}</td>{% endfor %}</tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">Cumulative, not annualised. Indices are price-only, so compare them with the "price only" line.</p>
+
+<div class="two-col">
+<section>
+  <h2>Dividends</h2>
+  {% if ttm_divs %}<p>Last 12 months: <strong>{{ '%.4g'|format(ttm_divs|sum(attribute='amount')) }}</strong>
+     {{ ttm_divs[0].currency or 'AUD' }} per share over {{ ttm_divs|length }} payment{{ 's' if ttm_divs|length != 1 }}.</p>{% endif %}
+  {% if divs %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Ex-date</th><th class="num">Amount</th><th class="num">Franking</th><th>Paid</th></tr></thead>
+    <tbody>{% for d in divs %}
+      <tr><td>{{ d.ex_date|dmy }}</td><td class="num">{{ '%.4g'|format(d.amount) if d.amount is not none else '—' }}{% if d.currency and d.currency != 'AUD' %} {{ d.currency }}{% endif %}</td>
+          <td class="num">{{ d.franking_pct|cell('pct100') }}</td><td>{{ d.pay_date|dmy or '—' }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  <p class="muted">Franking is known for recent dividends only (ASX key statistics).</p>
+  {% else %}<p class="muted">No dividends on record.</p>{% endif %}
+</section>
+<section>
+  <h2>Calendar</h2>
+  {% if upcoming or recent_events %}
+  <div class="table-wrap"><table>
+    {% for e in upcoming %}<tr><td>{{ e.event_date|dmy }}</td><td><strong>{{ e.event_type|replace('_', ' ')|capitalize }}</strong></td><td class="muted">{{ e.detail or '' }}</td></tr>{% endfor %}
+    {% for e in recent_events %}<tr class="past"><td>{{ e.event_date|dmy }}</td><td>{{ e.event_type|replace('_', ' ')|capitalize }}</td><td class="muted">{{ e.detail or '' }} (past)</td></tr>{% endfor %}
+  </table></div>
+  {% else %}<p class="muted">No earnings or dividend dates known. Yahoo's ASX calendar is often sparse.</p>{% endif %}
+</section>
+</div>
+
+{% if fins %}
+<h2>Annual financials <span class="muted">{{ fund.currency or '' }}</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th></th>{% for f in fins %}<th class="num">FY {{ f.period_end[:7]|dmy }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for key, label in (('revenue', 'Revenue'), ('ebit', 'EBIT'), ('net_income', 'Net profit'), ('operating_cash_flow', 'Operating cash flow'),
+                        ('free_cash_flow', 'Free cash flow'), ('total_debt', 'Total debt'), ('total_equity', 'Equity')) %}
+    <tr><td>{{ label }}</td>{% for f in fins %}<td class="num">{{ f[key]|money }}</td>{% endfor %}</tr>
+  {% endfor %}
+    <tr><td>Diluted EPS</td>{% for f in fins %}<td class="num">{{ f.diluted_eps|cell('ratio') if f.diluted_eps is none else '%.3f'|format(f.diluted_eps) }}</td>{% endfor %}</tr>
+  </tbody>
+</table></div>
+{% endif %}
+
+<h2>Peers <span class="muted">{{ comp.sector }} in {{ universe_label }}{% if sector_med.n %} ({{ sector_med.n }} companies){% endif %}</span></h2>
+{% if peers %}
+{% set pcols = ['price', 'ret_1y', 'market_cap', 'pe', 'forward_pe', 'pb', 'gross_yield', 'franking_pct', 'roe', 'debt_to_equity', 'short_pct'] %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th>{% for k in pcols %}<th class="num" title="{{ columns[k][2] }}">{{ columns[k][0] }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for r in peers %}
+    <tr class="{{ 'me' if r.code == comp.code }}"><td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a> <span class="muted">{{ r.name|coname|truncate(22, true, '…') }}</span></td>
+    {% for k in pcols %}<td class="num {{ r[k]|sign if k == 'ret_1y' }}">{{ r[k]|cell('spct' if k == 'ret_1y' else columns[k][1]) }}</td>{% endfor %}</tr>
+  {% endfor %}
+    <tr class="median"><td>Sector median</td>{% for k in pcols %}<td class="num">{{ sector_med[k]|cell('spct' if k == 'ret_1y' else columns[k][1]) if k != 'price' else '' }}</td>{% endfor %}</tr>
+  </tbody>
+</table></div>
+<p class="muted">The {{ peers|length }} companies closest in market cap within the sector. The median uses all {{ sector_med.n }}.</p>
+{% else %}<p class="muted">No peers in the current universe.</p>{% endif %}
+
+<h2>Director trades</h2>
+<p>Last 90 days, on-market:
+  {% if net_90.buys or net_90.sells %}{{ net_90.buys }} buy{{ 's' if net_90.buys != 1 }}, {{ net_90.sells }} sell{{ 's' if net_90.sells != 1 }}
+  {% if net_90.value %}· net <strong class="{{ net_90.value|sign }}">A${{ net_90.value|money }}</strong>{% endif %}
+  {% else %}none.{% endif %}</p>
+{% if trades %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Notice</th><th>Director</th><th>Type</th><th class="num">Acquired</th><th class="num">Disposed</th><th class="num">Value A$</th><th>Details</th></tr></thead>
+  <tbody>{% for t in trades %}
+    <tr><td><a href="https://www.asx.com.au/asx/v2/statistics/displayAnnouncement.do?display=pdf&amp;idsId={{ t.ids_id }}" rel="noopener" target="_blank">{{ t.published_at|time }}</a></td>
+        <td>{{ t.director or '—' }}</td>
+        <td><span class="badge trade-{{ t.trade_type }}">{{ t.trade_type }}</span></td>
+        <td class="num">{{ t.acquired|cell('ratio') if t.acquired is none else '{:,.0f}'.format(t.acquired) }}</td>
+        <td class="num">{{ t.disposed|cell('ratio') if t.disposed is none else '{:,.0f}'.format(t.disposed) }}</td>
+        <td class="num">{{ t.value|money if t.value else '—' }}</td>
+        <td class="msg">{{ (t.nature or '')|truncate(120, true, '…') }}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">From Appendix 3Y notices, parsed automatically. "Buy"/"sell" means a discretionary on-market trade; plan grants, DRP and option exercises are "other". Check the notice for exact details.</p>
+{% else %}<p class="muted">No director notices collected (the backfill covers the last 12 months).</p>{% endif %}
+
+<h2>News &amp; sentiment</h2>
+<div class="cards stats">
+  <div class="card"><div class="card-label">News, 7 days</div><div class="card-value small">{{ news_summary.news_7d }}</div>
+    <div class="muted">avg sentiment {% with label='', score=news_summary.news_sent_7d %}{% include "_sent.html" %}{% endwith %}{{ '—' if news_summary.news_sent_7d is none }}</div></div>
+  <div class="card"><div class="card-label">News, 30 days</div><div class="card-value small">{{ news_summary.news_30d }}</div>
+    <div class="muted">avg sentiment {% with label='', score=news_summary.news_sent_30d %}{% include "_sent.html" %}{% endwith %}{{ '—' if news_summary.news_sent_30d is none }}</div></div>
+  <div class="card"><div class="card-label">Price-sensitive, 90 days</div><div class="card-value small">{{ news_summary.ann_ps_90d }}</div>
+    <div class="muted">avg sentiment {% with label='', score=news_summary.ann_sent_90d %}{% include "_sent.html" %}{% endwith %}{{ '—' if news_summary.ann_sent_90d is none }}</div></div>
+  <div class="card"><div class="card-label">Announcements, 30 days</div><div class="card-value small">{{ news_summary.ann_30d }}</div>
+    <div class="muted">{% if news_summary.ann_month_avg is not none %}usual: {{ '%.0f'|format(news_summary.ann_month_avg) }}/month{% if news_summary.ann_activity_z is not none and news_summary.ann_activity_z >= 2 %} · <span class="warn-inline">unusually busy</span>{% endif %}{% endif %}</div></div>
+</div>
+{% if news_summary.events_90d %}
+<p class="muted">Announcement events, last 90 days: {% for k, label, n in news_summary.events_90d %}<span class="chip event">{{ label }} × {{ n }}</span> {% endfor %}</p>
+{% endif %}
+{% if news_items %}
+<div class="news-list">{% with items=news_items, compact=false, more_url=None %}{% include "_news_items.html" %}{% endwith %}</div>
+{% if news_more %}<p><a href="/news?code={{ comp.code }}&amp;days=0">All news for {{ comp.code }} →</a></p>{% endif %}
+{% else %}
+<p class="muted">No media stories linked to {{ comp.code }} yet. News collection started recently, and only stories that name the company are linked.</p>
+{% endif %}
+<p class="muted">Sentiment is FinBERT's reading of the headline, from −1 to +1; it's a noisy signal.{% if not model_ok %} The model isn't installed, so it's blank.{% endif %}</p>
+
+<h2>Announcements</h2>
+<div class="seg small" role="group" aria-label="Announcement filter">
+  <button type="button" class="active" hx-get="/company/{{ comp.code }}/announcements?ps=0" hx-target="#anns" hx-swap="innerHTML"
+          onclick="this.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b===this))">All</button>
+  <button type="button" hx-get="/company/{{ comp.code }}/announcements?ps=1" hx-target="#anns" hx-swap="innerHTML"
+          onclick="this.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('active', b===this))">Price-sensitive only</button>
+</div>
+<div id="anns">{% with ps=0, next_offset=ann_page, append=false, code=comp.code %}{% include "_announcements.html" %}{% endwith %}</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/vendor/lightweight-charts.standalone.production.js"></script>
+<script src="{{ static_url('company.js') }}"></script>
+{% endblock %}

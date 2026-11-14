@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}{{ m.label }} · ASX Analyst{% endblock %}
+{% block content %}
+<nav class="mkt-switch" aria-label="Markets">
+  <a href="/">← Dashboard</a>
+  {% for k, lbl in others %}<a href="/market/{{ k }}" class="{{ 'cur' if k == m.slug }}"{% if k == m.slug %} aria-current="page"{% endif %}>{{ lbl }}</a>{% endfor %}
+</nav>
+
+<div class="mkt-head">
+  <h1>{{ m.label }}</h1>
+  {% if m.has_data %}
+  <div class="quote">
+    <div class="mkt-value">{{ m.value }}</div>
+    {% set d1 = (m.returns|selectattr('label', 'equalto', '1 day')|list)[0] if m.kind != 'rate' and m.returns else none %}
+    {% if d1 and d1.chg is not none %}<div class="{{ d1.chg|sign }}">{{ d1.chg|cell('spct') }} on the day</div>{% endif %}
+    {% if m.kind == 'rate' and m.since_change %}<div class="muted">{{ 'Raised' if m.since_change.change > 0 else 'Cut' }} {{ '%.2f'|format(m.since_change.change|abs) }} pp on {{ m.since_change.date|dmy }}</div>{% endif %}
+    {% if m.kind != 'rate' %}<div class="muted">Close {{ m.date|dmy }}</div>{% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% if not m.has_data %}
+<p class="warn">No data stored for this series yet. It's downloaded with the daily update.</p>
+{% else %}
+
+{% if m.aud %}
+<div class="cards mkt-aud">
+  <div class="card"><div class="card-label">Price in A$</div>
+    <div class="card-value small">A${{ '{:,.2f}'.format(m.aud.value) }}</div>
+    <div class="muted">{% if m.aud.chg_1y is not none %}<span class="{{ m.aud.chg_1y|sign }}">{{ m.aud.chg_1y|cell('spct') }}</span> over 1 year in A${% endif %}</div></div>
+</div>
+{% endif %}
+
+<h2>Chart</h2>
+<div class="chart-controls">
+  <div class="seg" role="group" aria-label="Range">
+    {% for r in ('1M', '3M', '6M', '1Y', '3Y', '5Y', '10Y', 'Max') %}
+    <button type="button" data-range="{{ r }}" class="{{ 'active' if r == ('10Y' if m.kind == 'rate' else '1Y') }}">{{ r }}</button>
+    {% endfor %}
+  </div>
+</div>
+<div id="chart" class="chart mkt-chart" data-slug="{{ m.slug }}" data-range="{{ '10Y' if m.kind == 'rate' else '1Y' }}"><div class="muted chart-loading">Loading chart…</div></div>
+<div id="chart-legend" class="chart-legend muted">Hover or tap the chart to see the value on a day.</div>
+
+<div class="two-col">
+  <section>
+    <h2>{{ 'Change' if m.kind == 'rate' else 'Performance' }}</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Period</th><th class="num">{{ 'Change' if m.kind == 'rate' else 'Return' }}</th><th class="num">{{ 'From' }}</th>{% if m.kind != 'rate' %}<th class="num" title="Compound yearly rate">Per year</th>{% endif %}</tr></thead>
+      <tbody>{% for r in m.returns %}
+        <tr><td>{{ r.label }}</td>
+          {% if m.kind == 'rate' %}
+          <td class="num">{% if r.pp is defined %}{{ '%+.2f'|format(r.pp) }} pp{% else %}—{% endif %}</td>
+          <td class="num muted">{% if r.from %}{{ '%.2f'|format(r.from_v) }}% ({{ r.from|dmy }}){% else %}—{% endif %}</td>
+          {% else %}
+          <td class="num {{ r.chg|sign if r.chg is defined }}">{{ r.chg|cell('spct') if r.chg is defined else '—' }}</td>
+          <td class="num muted">{% if r.from %}{{ m.fmt.format(r.from_v) }}{% else %}—{% endif %}</td>
+          <td class="num">{{ r.ann|cell('spct') if r.ann is defined else '' }}</td>
+          {% endif %}</tr>
+      {% endfor %}</tbody>
+    </table></div>
+    {% if m.kind == 'index' %}<p class="muted">Price index: dividends not included.</p>{% endif %}
+  </section>
+  <section>
+    <h2>Ranges</h2>
+    {% set rg = m.ranges %}
+    <div class="card">
+      <div class="card-label">52-week range</div>
+      <div class="row-between"><span>{{ m.fmt.format(rg.lo52) }}</span><span>{{ m.fmt.format(rg.hi52) }}</span></div>
+      {% if rg.pos52 is not none %}<div class="range-bar" title="Where the latest value sits in the 52-week range"><span style="left: {{ (rg.pos52 * 100)|round(1) }}%"></span></div>{% endif %}
+      <div class="row-between muted"><span>low {{ rg.lo52_d|dmy }}</span><span>high {{ rg.hi52_d|dmy }}</span></div>
+    </div>
+    <div class="table-wrap"><table>
+      <tbody>
+        <tr><td>Highest on record</td><td class="num">{{ m.fmt.format(rg.ath) }}</td><td class="num muted">{{ rg.ath_d|dmy }}</td></tr>
+        <tr><td>Lowest on record</td><td class="num">{{ m.fmt.format(rg.atl) }}</td><td class="num muted">{{ rg.atl_d|dmy }}</td></tr>
+        <tr><td>{{ 'Below' if m.raw < rg.ath else 'At' }} record high</td><td class="num">{% if m.kind == 'rate' %}{{ '%+.2f'|format(m.raw - rg.ath) }} pp{% else %}{{ (m.raw / rg.ath - 1)|cell('spct') }}{% endif %}</td><td></td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Records since {{ rg.first|dmy }}, the start of the stored history.</p>
+  </section>
+</div>
+
+{% if m.decisions %}
+<h2>RBA decisions</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Date</th><th class="num">New rate</th><th class="num">Change</th></tr></thead>
+  <tbody>{% for d in m.decisions %}
+    <tr><td>{{ d.date|dmy }}</td><td class="num">{{ '%.2f'|format(d.rate) }}%</td>
+      <td class="num">{{ '%+.2f'|format(d.change) }} pp</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">Changes only; meetings that left the rate unchanged aren't listed. Last {{ m.decisions|length }} changes.</p>
+{% endif %}
+
+{% endif %}
+
+<section class="mkt-about">
+  <h2>What it is and why it matters</h2>
+  {% for p in m.about %}<p>{{ p }}</p>{% endfor %}
+  {% if m.links %}<p>{% for t, u in m.links %}<a href="{{ u }}">{{ t }} →</a>{{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}
+</section>
+
+{% if m.has_data %}
+{% if m.related %}
+<h2>ASX stocks that move with it</h2>
+<p class="muted">From weekly returns over the last {{ m.related.weeks }} weeks (since {{ m.related.since|dmy }}), {{ universe_label }} stocks.
+  <strong>Correlation</strong> runs from −1 to 1: near 1 means the stock usually rose in the weeks this rose.
+  <strong>Sensitivity</strong> is the stock's typical move for a 1% move here. Past relationships, not a forecast; a high correlation doesn't mean one causes the other.</p>
+<div class="two-col">
+  <section>
+    <h3>Move most with it</h3>
+    {% if not m.related.pos %}<p class="muted">No {{ universe_label }} stock had a correlation of 0.2 or more: none moved reliably with it.</p>{% else %}
+    <div class="table-wrap"><table>
+      <thead><tr><th>Code</th><th>Company</th><th class="num">Correlation</th><th class="num">Sensitivity</th></tr></thead>
+      <tbody>{% for r in m.related.pos %}
+        <tr><td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td><td class="name">{{ r.name|coname }}</td>
+          <td class="num">{{ '%.2f'|format(r.corr) }}</td><td class="num">{{ '%.2f'|format(r.beta) }}%</td></tr>
+      {% endfor %}</tbody>
+    </table></div>{% endif %}
+  </section>
+  {% if m.related.neg %}
+  <section>
+    <h3>Move against it</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Code</th><th>Company</th><th class="num">Correlation</th><th class="num">Sensitivity</th></tr></thead>
+      <tbody>{% for r in m.related.neg %}
+        <tr><td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td><td class="name">{{ r.name|coname }}</td>
+          <td class="num">{{ '%.2f'|format(r.corr) }}</td><td class="num">{{ '%.2f'|format(r.beta) }}%</td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+  </section>
+  {% endif %}
+</div>
+{% endif %}
+
+<p class="muted">Source: {{ 'Reserve Bank of Australia (cash rate target)' if m.kind == 'rate' else 'Yahoo Finance (' ~ m.symbol ~ '), unofficial; may be delayed or have gaps' }}.</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if m.has_data %}
+<script src="/static/vendor/lightweight-charts.standalone.production.js"></script>
+<script src="{{ static_url('market.js') }}"></script>
+{% endif %}
+{% endblock %}

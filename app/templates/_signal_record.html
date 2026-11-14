@@ -1,0 +1,17 @@
+{# Track record next to signals: backtest (hit rate, drawdown) + live forward record. Needs bt, live (optional). #}
+<div class="notice-box">
+  <strong>Track record.</strong>
+  {% if bt and bt.hit_rate is not none %}
+  Backtest of this rule ({{ bt.label }}, monthly top {{ top_n or 10 }} since {{ bt.start or '2020' }}): beat the ASX 200 in
+  <strong>{{ bt.hit_rate|cell('pct0') }}</strong> of months, worst drawdown <strong>{{ bt.max_dd|cell('pct0') }}</strong>
+  (ASX 200: {{ bt.bench_dd|cell('pct0') }}).
+  {% if bt.large_cagr is not none %}Among stocks that were large at the time it returned {{ bt.large_cagr|cell('pct') }} a year vs
+  {{ bt.bench_cagr|cell('pct') }} for the ASX 200{% if bt.large_hit is not none %}, beating it in {{ bt.large_hit|cell('pct0') }} of months{% endif %}.{% endif %}
+  {% else %}No backtest yet.{% endif %}
+  {% if live is defined and live %}
+  <br>Live since {{ live.since or 'today' }} (each new signal counted once, outcome over the next 21 trading days vs STW):
+  {% for k in ('Buy', 'Sell') %}{% set L = live[k] %}
+    {{ k }}: {% if L.matured %}{{ L.matured }} finished, <strong>{{ L.hit_rate|cell('pct0') }}</strong> right, average {{ L.avg_excess|cell('spct') }} vs the ASX 200{% else %}none finished yet{% endif %}{% if L.pending %} ({{ L.pending }} still running){% endif %}{{ ';' if loop.first else '.' }}
+  {% endfor %}
+  {% endif %}
+</div>

@@ -1,0 +1,22 @@
+{% for n in items %}
+<article class="news-item">
+  <div class="news-meta">
+    <span title="{{ 'First seen ' ~ (n.available_at|time) }}">{{ (n.published_at or n.available_at)|time }}</span> · <span>{{ n.source_name }}</span>
+    {% with label=n.sent_label, score=n.sent_score %}{% include "_sent.html" %}{% endwith %}
+  </div>
+  <a class="news-title" href="{{ n.url }}" target="_blank" rel="noopener">{{ n.title }}</a>
+  {% if n.summary and not compact %}<p class="news-summary">{{ n.summary }}</p>{% endif %}
+  <div class="chips">
+    {% for l in n.codes %}<a class="chip code{{ ' weak' if not l.in_title }}" href="/company/{{ l.code }}"
+       title="{{ 'In the headline' if l.in_title else 'Mentioned in the summary' }}">{{ l.code }}</a>{% endfor %}
+    {% for k, label in n.events %}<span class="chip event">{{ label }}</span>{% endfor %}
+    {% for k, label in n.macro %}<span class="chip macro">{{ label }}</span>{% endfor %}
+    {% if n.also %}<span class="muted">also: {% for a in n.also %}<a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.source }}</a>{{ ', ' if not loop.last }}{% endfor %}</span>{% endif %}
+  </div>
+</article>
+{% else %}
+{% if not more_url %}<p class="muted">No news matches.</p>{% endif %}
+{% endfor %}
+{% if more_url %}
+<div id="news-more"><button type="button" class="secondary" hx-get="{{ more_url }}" hx-target="#news-more" hx-swap="outerHTML">Show more</button></div>
+{% endif %}

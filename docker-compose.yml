@@ -1,0 +1,42 @@
+name: asx-analyst
+
+services:
+  asx-analyst:
+    build:
+      context: .
+      args:
+        APP_UID: ${APP_UID:-1000}
+        APP_GID: ${APP_GID:-1000}
+    image: asx-analyst:local
+    container_name: asx-analyst
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      TZ: Australia/Sydney
+    ports:
+      # LAN only. Do not port-forward this on your router.
+      - "${BIND_IP:-0.0.0.0}:${APP_PORT:-8000}:8000"
+    volumes:
+      - ./data:/app/data
+    # The LAN DNS blocks fc.yahoo.com, which Yahoo needs for fundamentals.
+    # Public resolvers for this container only.
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    cpus: 2.0
+    mem_limit: 2g
+    memswap_limit: 2g
+    pids_limit: 256
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=4).status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

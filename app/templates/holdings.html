@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Holdings · ASX Analyst{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  const sel = document.getElementById("trade-side");
+  if (!sel) return;
+  const show = () => document.querySelectorAll("#trade-form [data-for]").forEach((el) => {
+    el.hidden = !el.dataset.for.split(" ").includes(sel.value);
+  });
+  sel.addEventListener("change", show);
+  show();
+})();
+</script>
+{% endblock %}
+{% block content %}
+<div class="row-between">
+  <h1>Holdings</h1>
+  {% if trades %}<span class="muted">CSV: <a href="/export/holdings.csv">positions</a> · <a href="/export/holdings-trades.csv">trades</a> ·
+    <a href="/export/holdings-realised.csv">realised gains</a> · <a href="/export/dividends.csv">dividends</a></span>{% endif %}
+</div>
+<p class="muted">Your real shares, entered by hand. Nothing is connected to a broker. Everything below is worked out from the trades you enter.</p>
+{% if error %}<p class="warn">{{ error }}</p>{% endif %}
+{% if ok %}<p class="ok">{{ ok }}</p>{% endif %}
+
+{% if sm and sm.positions %}
+{% for f in sm.cgt_flags %}
+<div class="banner-{{ 'warn' if f.all_eligible else 'bad' }}">
+  <strong>Sell signal on {{ f.code }}</strong> ({{ f.confidence }} confidence{% if not skilled %}; the model showed no tested skill{% endif %}).
+  {% if f.all_eligible %}All your {{ f.code }} shares have been held 12 months or more, so a gain would get the 50% CGT discount.
+  {% else %}{{ '{:,.0f}'.format(f.young_units) }} of your {{ f.code }} shares were bought less than 12 months ago. Selling them now would miss the
+    50% CGT discount{% if f.young_gain > 0 %} on a gain of about A${{ '{:,.0f}'.format(f.young_gain) }}{% else %} (they're at a loss of about A${{ '{:,.0f}'.format(-f.young_gain) }}, so the discount wouldn't apply anyway){% endif %}.
+    The first parcel becomes eligible on <strong>{{ f.next_date|dmy }}</strong>.{% endif %}
+</div>
+{% endfor %}
+
+<div class="cards stats">
+  <div class="card"><div class="card-label">Value</div><div class="card-value small">A${{ '{:,.0f}'.format(sm.value) }}</div>
+    <div class="muted">cost A${{ '{:,.0f}'.format(sm.cost) }}</div></div>
+  <div class="card"><div class="card-label">Unrealised P/L</div><div class="card-value small {{ sm.unrealised|sign }}">{{ sm.unrealised|smoney }}</div>
+    <div class="{{ sm.unrealised|sign }}">{{ (sm.unrealised / sm.cost if sm.cost else none)|cell('spct') }}</div></div>
+  <div class="card"><div class="card-label">Realised P/L</div><div class="card-value small {{ sm.realised|sign }}">{{ sm.realised|smoney }}</div></div>
+  <div class="card"><div class="card-label">Dividends received</div><div class="card-value small">A${{ '{:,.0f}'.format(sm.dividends) }}</div>
+    <div class="muted">+ A${{ '{:,.0f}'.format(sm.franking) }} franking credits</div></div>
+  <div class="card" title="Every buy also buys the ASX 200 ETF (STW, dividends reinvested) and every sell sells the same fraction">
+    <div class="card-label">Same money in the ASX 200</div>
+    <div class="card-value small">A${{ '{:,.0f}'.format(sm.stw_total) }}</div>
+    <div class="muted">yours A${{ '{:,.0f}'.format(sm.mine_total) }} ({{ 'ahead' if sm.mine_total >= sm.stw_total else 'behind' }} by A${{ '{:,.0f}'.format((sm.mine_total - sm.stw_total)|abs) }})</div></div>
+</div>
+<p class="muted">"Yours" = today's value + sale proceeds + cash dividends; "same money in the ASX 200" buys and sells STW on the same days
+  (its brokerage and franking credits are ignored).</p>
+{% for w in sm.warnings %}<p class="warn">{{ w }}</p>{% endfor %}
+
+<h2>Positions</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th><th>Company</th><th class="num">Shares</th><th class="num">Avg cost</th><th class="num">Last</th><th class="num">Value</th>
+    <th class="num">Weight</th><th class="num">P/L</th><th class="num">Dividends</th><th>Signal</th><th>CGT discount</th></tr></thead>
+  <tbody>{% for p in sm.positions %}
+    {% set young = p.lots|rejectattr('eligible')|list %}
+    <tr><td><a href="/company/{{ p.code }}"><strong>{{ p.code }}</strong></a></td><td class="name">{{ p.name|coname }}</td>
+      <td class="num">{{ '{:,.0f}'.format(p.units) }}</td><td class="num">{{ p.avg_cost|cell('price') }}</td><td class="num">{{ p.price|cell('price') }}</td>
+      <td class="num">{{ '{:,.0f}'.format(p.value) }}</td><td class="num">{{ p.weight|cell('pct') }}</td>
+      <td class="num {{ p.pnl|sign }}">{{ p.pnl|smoney }} <span class="muted">{{ p.pnl_pct|cell('spct') }}</span></td>
+      <td class="num">{{ '{:,.0f}'.format(p.dividends) }}{% if p.franking %} <span class="muted">+{{ '{:,.0f}'.format(p.franking) }} fr</span>{% endif %}</td>
+      <td>{% if p.signal %}<span class="sig sig-{{ p.signal|lower }}{{ ' nosk' if not skilled }}">{{ p.signal }}</span>{% endif %}</td>
+      <td class="nowrap">{% if not young %}all shares{% else %}{{ '{:,.0f}'.format(young|sum(attribute='units')) }} sh. from {{ young|map(attribute='discount_date')|min|dmy }}{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+
+<div class="two-col">
+  <section>
+    <h2>By sector</h2>
+    <div class="table-wrap"><table>
+      {% for r in sm.sectors %}
+      <tr><td>{{ r.sector }}</td><td class="num">A${{ '{:,.0f}'.format(r.value) }}</td>
+        <td><span class="pctbar"><span style="width: {{ (r.weight * 100)|round(1) }}%{% if r.weight > max_sector %}; background: var(--down){% endif %}"></span></span>{{ r.weight|cell('pct') }}</td></tr>
+      {% endfor %}
+    </table></div>
+  </section>
+  <section>
+    <h2>By stock</h2>
+    <div class="table-wrap"><table>
+      {% for p in sm.positions|sort(attribute='value', reverse=true) %}
+      <tr><td><a href="/company/{{ p.code }}">{{ p.code }}</a></td>
+        <td><span class="pctbar"><span style="width: {{ (p.weight * 100)|round(1) }}%{% if p.weight > max_stock %}; background: var(--down){% endif %}"></span></span>{{ p.weight|cell('pct') }}</td></tr>
+      {% endfor %}
+    </table></div>
+  </section>
+</div>
+
+<h2>Parcels <span class="muted">matched first-in, first-out</span></h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th><th>Bought</th><th class="num">Shares</th><th class="num">Cost</th><th class="num">Value</th><th class="num">Gain</th><th>50% CGT discount</th></tr></thead>
+  <tbody>{% for p in sm.positions %}{% for l in p.lots %}
+    <tr><td>{{ p.code }}</td><td>{{ l.buy_date|dmy }}</td><td class="num">{{ '{:,.0f}'.format(l.units) }}</td>
+      <td class="num">{{ '{:,.0f}'.format(l.cost) }}</td><td class="num">{{ '{:,.0f}'.format(l.value) }}</td>
+      <td class="num {{ l.gain|sign }}">{{ l.gain|smoney }}</td>
+      <td>{% if l.eligible %}<span class="up">yes</span> (from {{ l.discount_date|dmy }}){% else %}<span class="warn-inline">from {{ l.discount_date|dmy }}</span> <span class="muted">in {{ l.days_to_discount }} days</span>{% endif %}</td></tr>
+  {% endfor %}{% endfor %}</tbody>
+</table></div>
+<p class="muted">Individuals get the 50% CGT discount on gains from shares held at least 12 months (not counting the purchase and sale days).
+  You can choose which parcel you sell for tax; FIFO is only the default shown here. General information, not tax advice.</p>
+
+{% if sm.realised_rows %}
+<h2>Realised gains</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Sold</th><th>Code</th><th>Bought</th><th class="num">Shares</th><th class="num">Cost</th><th class="num">Proceeds</th><th class="num">Gain</th><th>Discount</th></tr></thead>
+  <tbody>{% for r in sm.realised_rows %}
+    <tr><td>{{ r.sell_date|dmy }}</td><td>{{ r.code }}</td><td>{{ r.buy_date|dmy }}</td><td class="num">{{ '{:,.0f}'.format(r.units) }}</td>
+      <td class="num">{{ '{:,.0f}'.format(r.cost) }}</td><td class="num">{{ '{:,.0f}'.format(r.proceeds) }}</td>
+      <td class="num {{ r.gain|sign }}">{{ r.gain|smoney }}</td><td>{{ 'eligible' if r.discount else ('n/a (loss)' if r.gain <= 0 else 'no (<12 months)') }}{% if r.kind and r.kind != 'sale' %} <span class="muted">({{ r.kind }})</span>{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+{% if sm.dividend_rows %}
+<h2>Dividends</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Ex-date</th><th>Paid</th><th>Code</th><th class="num">Shares</th><th class="num">Per share</th><th class="num">Cash (A$)</th><th class="num">Franking credit</th></tr></thead>
+  <tbody>{% for d in sm.dividend_rows[:40] %}
+    <tr{% if not d.received %} class="past"{% endif %}><td>{{ d.ex_date|dmy }}</td><td>{{ d.pay_date|dmy or '—' }}{% if not d.received %} <span class="muted">(to come)</span>{% endif %}</td>
+      <td>{{ d.code }}</td><td class="num">{{ '{:,.0f}'.format(d.units) }}</td>
+      <td class="num">{{ '%.4f'|format(d.amount) }} {{ d.currency }}</td><td class="num">{{ '{:,.2f}'.format(d.cash) }}</td>
+      <td class="num">{{ '{:,.2f}'.format(d.franking_credit) }}{% if d.franking_estimated %} <span class="muted" title="Franking % of this dividend unknown; latest ASX figure used">est.</span>{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">Per-share amounts from Yahoo/ASX; USD-declared dividends converted at that day's AUD/USD, so actual payments can differ slightly.
+  Franking credits assume a 30% company tax rate.</p>
+{% endif %}
+{% elif not error %}
+<p class="muted">No holdings yet. Add your first purchase below.</p>
+{% endif %}
+
+<h2>Add a trade or corporate action</h2>
+<form class="form-row" method="post" action="/holdings/trade" id="trade-form">
+  <label>ASX code <input name="code" required value="{{ code }}" autocapitalize="characters" autocomplete="off"></label>
+  <label>Type <select name="side" id="trade-side">{% for k, label in sides.items() %}<option value="{{ k }}">{{ label }}</option>{% endfor %}</select></label>
+  <label>Date <input name="trade_date" type="date" required max="{{ today|safe }}" value="{{ today|safe }}"></label>
+  <label><span data-for="buy sell drp">Shares</span><span data-for="return demerger" hidden>Shares held</span>
+    <input name="quantity" type="number" min="0" step="any" required inputmode="decimal"></label>
+  <label data-for="buy sell drp return"><span data-for="buy sell drp">Price (A$)</span><span data-for="return" hidden>A$ per share returned</span>
+    <input name="price" type="number" min="0" step="any" inputmode="decimal"></label>
+  <label data-for="buy sell drp">Brokerage (A$) <input name="fees" type="number" min="0" step="any" value="{{ brokerage }}"></label>
+  <label data-for="demerger" hidden>New company code <input name="other_code" autocapitalize="characters" autocomplete="off"></label>
+  <label data-for="demerger" hidden>New shares per share held <input name="ratio" type="number" min="0" step="any"></label>
+  <label data-for="demerger" hidden>% of cost base to new shares <input name="cost_pct" type="number" min="0" max="100" step="any"></label>
+  <label>Note <input class="wide" name="note" maxlength="200"></label>
+  <button type="submit">Save</button>
+</form>
+<details class="metrics"><summary>How to enter corporate actions</summary>
+<ul class="facts">
+  <li><strong>DRP:</strong> the shares you received from a dividend reinvestment plan, at the DRP price (brokerage usually 0). The dividend itself is still counted as income.</li>
+  <li><strong>Capital return:</strong> the shares it applied to and the cash per share. It lowers your cost base; any amount above the cost base counts as a capital gain.</li>
+  <li><strong>Demerger:</strong> the parent's code, the new company's code, how many new shares you got per share held, and the % of cost base the company says to move across (from its tax statement). The new shares keep your original purchase dates for the CGT discount.</li>
+  <li><strong>Takeover for cash:</strong> enter a Sell at the offer price. <strong>Scrip-for-scrip:</strong> enter a Sell and a Buy (this app doesn't apply roll-over relief). <strong>Rights issue / SPP:</strong> a Buy. <strong>Splits and consolidations</strong> are applied automatically.</li>
+</ul></details>
+
+{% if trades %}
+<h2>Trades</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Date</th><th>Code</th><th>Type</th><th class="num">Shares</th><th class="num">Price / details</th><th class="num">Brokerage</th><th>Note</th><th></th></tr></thead>
+  <tbody>{% for t in trades %}
+    <tr><td>{{ t.trade_date|dmy }}</td><td><a href="/company/{{ t.code }}">{{ t.code }}</a></td><td><span class="badge trade-{{ 'buy' if t.side in ('buy', 'drp') else 'sell' if t.side == 'sell' else 'other' }}">{{ sides.get(t.side, t.side) }}</span></td>
+      <td class="num">{{ '{:,.0f}'.format(t.quantity) if t.quantity == t.quantity|int else t.quantity }}</td>
+      <td class="num">{% if t.side == 'demerger' %}{{ t.ratio }} {{ t.other_code }} per share, {{ t.cost_pct }}% of cost{% else %}{{ t.price|cell('price') }}{% endif %}</td>
+      <td class="num">{{ '%.2f'|format(t.fees) }}</td><td class="msg">{{ t.note or '' }}</td>
+      <td><form method="post" action="/holdings/trade/{{ t.id }}/delete" class="inline-form" onsubmit="return confirm('Delete this trade?')"><button class="link">delete</button></form></td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<p class="muted">To fix a mistake, delete the trade and enter it again.</p>
+{% endif %}
+{% endblock %}

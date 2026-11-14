@@ -1,0 +1,58 @@
+{%- macro sort_link(key) -%}
+{%- set d = 'asc' if (sort == key and desc) else ('desc' if sort == key else ('asc' if key in asc_first else 'desc')) -%}
+{%- set qs = [] -%}
+{%- for k, v in params.items() if v and k not in ('sort', 'dir') -%}{%- set _ = qs.append(k ~ '=' ~ (v|urlencode)) -%}{%- endfor -%}
+/screener?{{ (qs + ['sort=' ~ key, 'dir=' ~ d])|join('&') }}
+{%- endmacro -%}
+{# sort state lives here so filter changes keep the current sort after an HTMX re-sort #}
+<input type="hidden" form="screener-form" name="sort" value="{{ sort }}">
+<input type="hidden" form="screener-form" name="dir" value="{{ 'desc' if desc else 'asc' }}">
+<input type="hidden" form="screener-form" name="view" value="{{ view if view != 'overview' else '' }}">
+{%- macro view_link(v) -%}
+{%- set qs = [] -%}
+{%- for k, val in params.items() if val and k not in ('view',) -%}{%- set _ = qs.append(k ~ '=' ~ (val|urlencode)) -%}{%- endfor -%}
+{%- if v != 'overview' %}{% set _ = qs.append('view=' ~ v) %}{% endif -%}
+/screener{{ ('?' ~ qs|join('&')) if qs }}
+{%- endmacro %}
+<nav class="tabs" aria-label="Column sets">
+  {% for key, (label, _cols) in views.items() %}
+  <a href="{{ view_link(key) }}" hx-get="{{ view_link(key) }}" hx-target="#screener-results" hx-push-url="true"
+     class="{{ 'active' if key == view }}">{{ label }}</a>
+  {% endfor %}
+</nav>
+<div class="row-between">
+  <p class="muted">{{ rows|length }} of {{ total }} companies{% if stale %} · {{ stale }} with an older last price (suspended or no trade){% endif %}
+    · <a href="/export/screener.csv?{% for k, v in params.items() if v %}{{ k }}={{ v|urlencode }}&amp;{% endfor %}">download CSV</a></p>
+</div>
+<div class="table-wrap">
+<table class="screener">
+  <thead><tr>
+    {% for key in show %}{% set col = columns[key] %}
+    <th class="{{ 'num' if col[1] != 'text' }}{{ ' sorted' if sort == key }}" title="{{ col[2] }}"
+        {% if sort == key %}aria-sort="{{ 'descending' if desc else 'ascending' }}"{% endif %}>
+      <a href="{{ sort_link(key) }}" hx-get="{{ sort_link(key) }}" hx-target="#screener-results" hx-push-url="true">{{ col[0] }}{% if sort == key %} {{ '▼' if desc else '▲' }}{% endif %}</a>
+    </th>
+    {% endfor %}
+  </tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr{% if r.stale %} class="stale"{% endif %}>
+    {% for key in show %}{% set fmt = columns[key][1] %}
+      {% if key == 'code' %}<td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td>
+      {% elif key == 'name' %}<td class="name">{{ r.name|coname }}</td>
+      {% elif key == 'pe' and r.pe is none and r.loss_making %}<td class="num muted" title="Loss-making: P/E not meaningful">loss</td>
+      {% elif fmt == 'score' %}<td class="num"><span class="score {{ r[key]|scorecls }}">{{ r[key]|cell('score') }}</span></td>
+      {% elif fmt == 'trend' %}<td class="nowrap trend-{{ r.trend or 'none' }}">{{ trends.get(r.trend, '—') }}</td>
+      {% elif key == 'rsi14' %}<td class="num {{ 'rsi-ext' if r.rsi14 is not none and (r.rsi14 >= 70 or r.rsi14 <= 30) }}" {% if r.rsi14 is not none and (r.rsi14 >= 70 or r.rsi14 <= 30) %}title="{{ 'Above 70' if r.rsi14 >= 70 else 'Below 30' }}"{% endif %}>{{ r[key]|cell(fmt) }}</td>
+      {% elif fmt == 'text' %}<td class="nowrap">{{ r[key] or '—' }}</td>
+      {% elif key in ('chg_1d', 'ret_1m', 'ret_3m', 'ret_6m', 'ret_1y', 'mom_12_1', 'vs_sma200', 'short_chg') %}
+        <td class="num {{ r[key]|sign if key != 'short_chg' }}">{{ r[key]|cell('spct' if fmt == 'pct' else fmt) }}</td>
+      {% else %}<td class="num">{{ r[key]|cell(fmt) }}</td>{% endif %}
+    {% endfor %}
+    </tr>
+  {% else %}
+    <tr><td colspan="{{ show|length }}" class="muted">No companies match these filters.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>

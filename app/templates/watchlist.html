@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Watchlist · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Watchlist</h1>
+{% if error %}<p class="warn">{{ error }}</p>{% endif %}
+<form class="form-row" method="post" action="/watchlist/add">
+  <label>ASX code <input name="code" required placeholder="e.g. BHP" autocapitalize="characters" autocomplete="off"></label>
+  <label>Note (optional) <input class="wide" name="note" maxlength="200"></label>
+  <button type="submit">Add</button>
+</form>
+{% if not rows %}
+<p class="muted">Nothing here yet. Add a code above, or use the ☆ Watch button on any company page.</p>
+{% else %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th><th>Company</th><th class="num">Price</th><th class="num">1d</th><th class="num">1m</th><th class="num">1y</th>
+    <th>Signal (1m)</th><th class="num">Chance to beat ASX 200</th><th class="num">News 7d</th><th>Next date</th>
+    <th>Latest price-sensitive (14 days)</th><th></th></tr></thead>
+  <tbody>{% for r in rows %}
+    <tr{% if r.stale %} class="stale"{% endif %}>
+      <td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td>
+      <td class="name" title="{{ r.note or '' }}">{{ r.name|coname }}{% if r.note %}<div class="muted">{{ r.note }}</div>{% endif %}</td>
+      <td class="num">{{ r.price|cell('price') }}</td>
+      <td class="num {{ r.chg_1d|sign }}">{{ r.chg_1d|cell('spct') }}</td>
+      <td class="num {{ r.ret_1m|sign }}">{{ r.ret_1m|cell('spct') }}</td>
+      <td class="num {{ r.ret_1y|sign }}">{{ r.ret_1y|cell('spct') }}</td>
+      <td>{% if r.fc %}<span class="sig sig-{{ r.fc.signal|lower }}{{ ' nosk' if not skilled }}">{{ r.fc.signal }}</span>{% else %}<span class="muted">{{ 'not forecast' if r.outside else '—' }}</span>{% endif %}</td>
+      <td class="num">{{ r.fc.p_beat|cell('pct0') if r.fc else '—' }}</td>
+      <td class="num">{{ r.news_7d or 0 }} {% if r.news_sent_7d is not none %}<span class="sent {{ r.news_sent_7d|sentcls }}">{{ '%+.2f'|format(r.news_sent_7d) }}</span>{% endif %}</td>
+      <td class="nowrap">{% if r.next_event %}{{ r.next_event.event_type|replace('_', ' ') }} {{ r.next_event.event_date|dmy }}{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td>{% if r.last_ps %}<a href="{{ r.last_ps.pdf_url or r.last_ps.url }}" target="_blank" rel="noopener">{{ r.last_ps.headline }}</a>
+        <span class="muted">{{ r.last_ps.published_at|age }}</span>{% else %}<span class="muted">none</span>{% endif %}</td>
+      <td><form method="post" action="/watchlist/{{ r.code }}/toggle" class="inline-form"><button class="link" title="Remove {{ r.code }}">remove</button></form></td>
+    </tr>
+  {% endfor %}</tbody>
+</table></div>
+{% if not skilled %}<p class="muted">Signals are greyed out: the models showed no tested skill (see the <a href="/backtest">backtest</a>).</p>{% endif %}
+
+<div class="two-col">
+  <section>
+    <h2>Announcements</h2>
+    <div class="table-wrap"><table>
+      {% for a in anns %}
+      <tr><td class="nowrap">{{ a.published_at|time }}</td><td><a href="/company/{{ a.code }}"><strong>{{ a.code }}</strong></a></td>
+        <td>{% if a.price_sensitive %}<span class="badge ps" title="Price sensitive">$</span> {% endif %}<a href="{{ a.pdf_url or a.url }}" target="_blank" rel="noopener">{{ a.headline }}</a>
+          {% if a.ai %}{% with ai=a.ai, open=false %}{% include "_ai.html" %}{% endwith %}{% endif %}</td></tr>
+      {% else %}<tr><td class="muted">None.</td></tr>{% endfor %}
+    </table></div>
+  </section>
+  <section>
+    <h2>News <span class="muted">last 14 days</span></h2>
+    <div class="news-list compact">{% with items=news, compact=true, more_url=None %}{% include "_news_items.html" %}{% endwith %}</div>
+  </section>
+</div>
+{% endif %}
+{% endblock %}

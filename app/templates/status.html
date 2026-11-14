@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Status · ASX Analyst{% endblock %}
+{% block head %}{% if snap.running %}<meta http-equiv="refresh" content="20">{% endif %}{% endblock %}
+{% block content %}
+<div class="row-between">
+  <h1>Status</h1>
+  <form method="post" action="/refresh">
+    <button type="submit" {% if 'daily_update' in snap.running %}disabled{% endif %}>
+      {% if 'daily_update' in snap.running %}Refreshing…{% else %}Refresh data{% endif %}
+    </button>
+  </form>
+</div>
+{% if started == '1' %}<p class="ok">{{ started_job or 'Refresh' }} started. This page reloads every 20 s while jobs run.</p>{% endif %}
+{% if started == '0' %}<p class="warn">{{ started_job or 'A refresh' }} is already running.</p>{% endif %}
+{% if snap.running %}<p>Running now: <strong>{{ snap.running|join(', ') }}</strong></p>{% endif %}
+
+<div class="notice-box"><span class="health h-{{ health.level }}"></span>
+  <strong>{{ {'ok': 'All good', 'warn': 'Needs a look', 'bad': 'Something failed'}[health.level] }}.</strong>
+  {% if health.issues %}<ul class="facts">{% for t in health.issues %}<li>{{ t }}</li>{% endfor %}</ul>
+  {% else %}Every scheduled job's last run succeeded and all data was refreshed on time.{% endif %}
+</div>
+
+<p>Universe: <strong>{{ universe_label }}</strong>, {{ snap.universe.members or 0 }} members as of {{ snap.universe.as_of|dmy or '—' }}
+  (source: {{ snap.universe.source or '—' }}){% if snap.universe.approximate %} — <span class="warn-inline">approximation, no free official list</span>{% endif %}.
+  Companies: {% for k, v in snap.companies.items() %}{{ v }} {{ k }}{% if not loop.last %}, {% endif %}{% endfor %}.
+</p>
+<p>ASX {% if snap.market_open_today %}trading day today{% else %}<strong>closed today</strong>{% if snap.holiday_today %} ({{ snap.holiday_today }}){% endif %}{% endif %}.
+  Next holidays: {% for d, n in snap.next_holidays %}{{ n }} {{ d }}{{ ', ' if not loop.last }}{% endfor %}. Daily updates are skipped on holidays.</p>
+<p>Initial backfill: {{ snap.initial_backfill_done|time if snap.initial_backfill_done else 'not finished' }}</p>
+
+<h2>Data freshness</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Data</th><th>Latest data point</th><th>Last fetched</th><th>Expected</th><th class="num">Rows</th></tr></thead>
+  <tbody>
+  {% for f in snap.freshness %}
+    <tr{% if f.stale and f.rows %} class="stale-row"{% endif %}><td>{{ f.label }}</td><td>{{ f.latest|time }}</td>
+      <td>{{ f.fetched_at|time }} <span class="muted">{{ f.fetched_at|age }}</span>{% if f.stale and f.rows %} <span class="warn-inline">stale</span>{% endif %}</td>
+      <td class="muted">{% if f.max_age is none %}when new data exists{% elif f.max_age is string or f.max_age is number %}within {{ f.max_age }} days{% else %}within {{ f.max_age[1] }} trading days{% endif %}</td>
+      <td class="num">{{ '{:,}'.format(f.rows) }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+
+<h2>News sentiment</h2>
+{% set m = snap.sentiment_model %}
+{% if m %}
+<p class="ok">FinBERT installed ({{ m.variant or 'onnx' }}, {{ m.size_mb }} MB, {{ m.repo }}@{{ (m.revision or '')[:7] }}).
+  {% set b = snap.news_backlog %}
+  {% if b.ann_unscored or b.news_unscored %}Still to score: {{ '{:,}'.format(b.ann_unscored) }} announcements and {{ b.news_unscored }} news items
+  (the news_backfill job works through them at low priority).{% else %}All headlines are scored.{% endif %}</p>
+{% else %}
+<p class="warn">The FinBERT model isn't installed, so news and announcement sentiment are blank. Everything else works.
+  To install it (one-off, about 2 minutes, needs Docker): <code>./tools/install-finbert.sh</code>, then restart the app.</p>
+{% endif %}
+
+<h2>AI summaries</h2>
+{% if ai_on %}
+<p class="ok">On: {{ s.llm_model }} summarises new price-sensitive announcements for
+  {{ 'every ' ~ universe_label ~ ' company' if s.llm_scope == 'universe' else 'your watchlist and holdings' }}, at most {{ s.llm_daily_limit }} a day.
+  Last 30 days: {{ ai_usage.n }} summaries{% if ai_usage.failed %} ({{ ai_usage.failed }} failed){% endif %},
+  {{ '{:,}'.format(ai_usage.input_tokens) }} input + {{ '{:,}'.format(ai_usage.output_tokens) }} output tokens{% if ai_usage.cost_usd is not none %}
+  ≈ US${{ '%.2f'|format(ai_usage.cost_usd) }}{% endif %}.</p>
+{% else %}
+<p class="muted">Off. Add <code>LLM_API_KEY=</code> (an Anthropic API key from console.anthropic.com) to <code>.env</code> and run
+  <code>docker compose up -d</code> to get short AI summaries of price-sensitive announcements. FinBERT keeps scoring sentiment either way.</p>
+{% endif %}
+
+<h2>Jobs</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Job</th><th>When</th><th>Last run</th><th>Status</th><th>Took</th><th>Last success</th><th>Next run</th><th>Message</th><th></th></tr></thead>
+  <tbody>
+  {% for j in jobs %}{% set r = j.last %}
+    <tr{% if r.status == 'error' %} class="bad-row"{% endif %}>
+      <td><strong>{{ j.job }}</strong><div class="muted">{{ j.what }}</div></td>
+      <td class="muted">{{ j.when }}</td>
+      <td>{{ r.started_at|time if r.started_at else '—' }}</td>
+      <td>{% if j.running %}<span class="badge partial">running</span>{% elif r.status %}<span class="badge {{ r.status }}">{{ r.status }}</span>{% endif %}
+        {% if r.errors %}<span class="muted">{{ r.errors }} errors</span>{% endif %}</td>
+      <td class="nowrap">{{ j.duration|duration }}</td>
+      <td>{{ r.last_success|time if r.last_success else '—' }}</td>
+      <td>{{ j.next_run|time if j.next_run else '—' }}</td>
+      <td class="msg">{{ r.message or '' }}</td>
+      <td>{% if j.runnable %}<form method="post" action="/jobs/{{ j.job }}/run" class="inline-form"
+        {% if j.job in ('train', 'initial_backfill', 'news_backfill') %}onsubmit="return confirm('{{ j.job }} is a long job (up to hours). Run it now?')"{% endif %}>
+        <button class="secondary small" {{ 'disabled' if j.running }}>Run</button></form>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+
+<h2>Storage and memory</h2>
+<div class="table-wrap"><table>
+  <tbody>
+  {% for p in storage.parts %}<tr><td>data/{{ p.name }}</td><td class="num">{{ p.bytes|bytes }}</td></tr>{% endfor %}
+  <tr><td><strong>Total ./data</strong></td><td class="num"><strong>{{ storage.total|bytes }}</strong></td></tr>
+  <tr><td>Free disk where ./data lives</td><td class="num">{{ storage.free|bytes }} of {{ storage.disk|bytes }}</td></tr>
+  {% if storage.mem_used %}<tr><td>Container memory now{% if storage.mem_peak %} (peak since start){% endif %}</td>
+    <td class="num">{{ storage.mem_used|bytes }}{% if storage.mem_peak %} ({{ storage.mem_peak|bytes }}){% endif %}{% if storage.mem_max %} of {{ storage.mem_max|bytes }}{% endif %}</td></tr>{% endif %}
+  </tbody>
+</table></div>
+<p class="muted">Automatic backups: {% if storage.backup_keep %}weekly, the last {{ storage.backup_keep }} kept in <code>data/backups</code>
+  ({% if storage.backups %}latest {{ storage.backups[0].name }}, {{ storage.backups[0].size|bytes }}{% else %}none yet{% endif %}).
+  {% else %}off (<code>BACKUP_KEEP=0</code>).{% endif %} The cache folder can be deleted any time; it's re-downloadable.</p>
+
+<p>Alerts: <a href="/alerts">settings, test button and history →</a></p>
+
+<h2>Sources</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Source</th><th>Last success</th><th>Last error</th><th class="num">OK / errors</th></tr></thead>
+  <tbody>
+  {% for s in snap.sources %}
+    <tr><td>{{ s.source }}</td><td>{{ s.last_success|time }}</td>
+      <td>{% if s.last_error %}{{ s.last_error_at|time }}: <span class="msg">{{ s.last_error }}</span>{% endif %}</td>
+      <td class="num">{{ s.ok_count }} / {{ s.error_count }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+
+<h2>Recent errors</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>When</th><th>Job</th><th>Source</th><th>Item</th><th>Message</th></tr></thead>
+  <tbody>
+  {% for e in snap.errors %}
+    <tr><td>{{ e.at|time }}</td><td>{{ e.job }}</td><td>{{ e.source }}</td><td>{{ e.item }}</td><td class="msg">{{ e.message }}</td></tr>
+  {% else %}<tr><td colspan="5" class="muted">None.</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+{% endblock %}

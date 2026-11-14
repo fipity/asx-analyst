@@ -1,0 +1,6 @@
+{#- sentiment badge: needs `label`, `score` -#}
+{%- if score is not none -%}
+<span class="sent {{ score|sentcls }}" title="FinBERT: {{ label }} ({{ '%+.2f'|format(score) }}). Model output on the headline; can be wrong.">
+  {{- '▲' if score >= 0.25 else '▼' if score <= -0.25 else '•' }} {{ '%+.2f'|format(score) -}}
+</span>
+{%- endif -%}

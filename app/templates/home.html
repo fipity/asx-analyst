@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row-between">
+  <h1>Dashboard</h1>
+  <a class="muted" href="/status" title="Data freshness and jobs"><span class="health h-{{ health.level }}"></span>Last update {{ snap.last_daily_update|age or '—' }}</a>
+</div>
+{% if snap.holiday_today %}<p class="notice-box">The ASX is closed today ({{ snap.holiday_today }}). Prices below are from the last trading day.</p>{% endif %}
+{% if not snap.initial_backfill_done %}
+<p class="warn">The initial data backfill is running or hasn't finished yet. It can take 1–2 hours. Progress is on the <a href="/status">Status page</a>.</p>
+{% elif health.level == 'bad' %}
+<p class="warn">A scheduled job failed; some data may be out of date. See the <a href="/status">Status page</a>.</p>
+{% endif %}
+
+<div class="cards market">
+  {% for m in mkt.cards %}
+  <a class="card card-click" href="/market/{{ m.slug }}" title="More about {{ m.label }}">
+    <div class="card-label">{{ m.label }}</div>
+    <div class="card-value">{{ m.value }}</div>
+    {% if m.chg_1d is defined and m.chg_1d is not none %}
+      <div><span class="{{ m.chg_1d|sign }}">{{ m.chg_1d|cell('spct') }}</span>
+        <span class="muted">1m {{ m.chg_1m|cell('spct') }} · YTD {{ m.ytd|cell('spct') }}</span></div>
+    {% elif m.note %}<div class="muted">{{ m.note }}</div>{% endif %}
+    {% if m.spark %}<svg class="spark" viewBox="0 0 140 32" width="100%" height="32" preserveAspectRatio="none" aria-hidden="true">
+      <path class="{{ 'up' if m.spark_up else 'down' }}" d="{{ m.spark }}" vector-effect="non-scaling-stroke"/></svg>{% endif %}
+    <div class="muted card-foot" title="{{ 'Line: last 3 months' if m.spark }}"><span>{{ m.date|dmy }}</span><span class="card-more">Details →</span></div>
+  </a>
+  {% endfor %}
+</div>
+{% if breadth.n %}<p class="muted">{{ universe_label }} last trading day: {{ breadth.up }} up, {{ breadth.down }} down, {{ breadth.n - breadth.up - breadth.down }} unchanged.</p>{% endif %}
+
+<div class="two-col">
+  <section>
+    <h2 id="sectors">Sectors <span class="muted">sorted by 1 month</span></h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Sector</th><th class="num">1d</th><th class="num">1m</th><th></th><th class="num">YTD</th><th class="num">1y</th></tr></thead>
+      <tbody>{% for sct in mkt.sectors %}
+        <tr><td><a href="/screener?sector={{ sct.label|urlencode }}">{{ sct.label }}</a></td>
+          <td class="num {{ sct.chg_1d|sign }}">{{ sct.chg_1d|cell('spct') }}</td>
+          <td class="num {{ sct.chg_1m|sign }}">{{ sct.chg_1m|cell('spct') }}</td>
+          <td>{% if sct.chg_1m is not none %}<span class="sector-bar {{ 'up' if sct.chg_1m >= 0 else 'down' }}" style="width: {{ [(sct.chg_1m|abs) * 600, 60]|min|round(0) }}px"></span>{% endif %}</td>
+          <td class="num {{ sct.ytd|sign }}">{{ sct.ytd|cell('spct') }}</td>
+          <td class="num {{ sct.chg_1y|sign }}">{{ sct.chg_1y|cell('spct') }}</td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+    <p class="muted">S&amp;P/ASX 200 sector price indices (no dividends).</p>
+  </section>
+  <section>
+    <h2>Strongest signals <span class="muted">{% if fc_as_of %}as of close {{ fc_as_of|dmy }}{% endif %}</span></h2>
+    {% if buys or sells %}
+    {% if not skilled %}<p class="banner-bad">The model showed no tested skill, so these are low confidence. <a href="/backtest">Why</a>.</p>{% endif %}
+    <div class="table-wrap"><table>
+      <thead><tr><th>Signal</th><th>Code</th><th>Company</th><th class="num" title="Chance of beating the ASX 200 over the next month">Beat ASX 200</th></tr></thead>
+      <tbody>{% for r in buys + sells %}
+        <tr><td><span class="sig sig-{{ r.signal|lower }}{{ ' nosk' if not skilled }}">{{ r.signal }}</span></td>
+          <td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td><td class="name">{{ r.name|coname }}</td>
+          <td class="num">{{ r.p_beat|cell('pct0') }}</td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+    <p><a href="/signals">All signals →</a> · <a href="/backtest">How they've done →</a></p>
+    {% else %}<p class="muted">No Buy or Sell signals yet. They appear after the first model training.</p>{% endif %}
+  </section>
+</div>
+
+{% if gainers %}
+<div class="two-col">
+  {% for title, list in (("Biggest rises", gainers), ("Biggest falls", losers)) %}
+  <section>
+    <h2>{{ title }} <span class="muted">last trading day</span></h2>
+    <div class="table-wrap"><table>
+      {% for r in list %}
+      <tr><td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td>
+          <td class="name">{{ r.name|coname }}</td>
+          <td class="num">{{ r.price|cell('price') }}</td>
+          <td class="num {{ r.chg_1d|sign }}">{{ r.chg_1d|cell('spct') }}</td></tr>
+      {% endfor %}
+    </table></div>
+  </section>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="two-col">
+  <section>
+    <h2>Market news</h2>
+    {% if latest_news %}
+    <div class="news-list compact">{% with items=latest_news, compact=true, more_url=None %}{% include "_news_items.html" %}{% endwith %}</div>
+    <p><a href="/news">All news →</a></p>
+    {% else %}<p class="muted">No news in the last 3 days.</p>{% endif %}
+  </section>
+  <section>
+    <h2>Price-sensitive announcements</h2>
+    <div class="table-wrap"><table>
+      {% for a in ps_anns %}
+      <tr><td class="nowrap muted">{{ a.published_at|time }}</td><td><a href="/company/{{ a.code }}"><strong>{{ a.code }}</strong></a></td>
+        <td><a href="{{ a.pdf_url or a.url }}" target="_blank" rel="noopener">{{ a.headline }}</a></td></tr>
+      {% else %}<tr><td class="muted">None yet.</td></tr>{% endfor %}
+    </table></div>
+  </section>
+</div>
+
+<div class="two-col">
+  <section>
+    <h2>Watchlist</h2>
+    {% if wl %}
+    <div class="table-wrap"><table>
+      {% for r in wl %}
+      <tr><td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td><td class="num">{{ r.price|cell('price') }}</td>
+        <td class="num {{ r.chg_1d|sign }}">{{ r.chg_1d|cell('spct') }}</td>
+        <td>{% if r.fc %}<span class="sig sig-{{ r.fc.signal|lower }}{{ ' nosk' if not skilled }}">{{ r.fc.signal }}</span>{% endif %}</td>
+        <td class="muted">{% if r.last_ps %}new: {{ r.last_ps.headline|truncate(40) }}{% endif %}</td></tr>
+      {% endfor %}
+    </table></div>
+    <p><a href="/watchlist">Watchlist →</a></p>
+    {% else %}<p class="muted">Empty. Use ☆ Watch on a company page, or <a href="/watchlist">add codes</a>.</p>{% endif %}
+  </section>
+  <section>
+    <h2>Paper portfolios</h2>
+    {% if pfs %}
+    <div class="table-wrap"><table>
+      <thead><tr><th>Portfolio</th><th class="num">Value</th><th class="num">Return</th><th class="num">ASX 200 same period</th></tr></thead>
+      {% for p in pfs %}
+      <tr><td><a href="/paper?id={{ p.id }}">{{ p.name }}</a><div class="muted">since {{ p.start }}</div></td>
+        <td class="num">A${{ '{:,.0f}'.format(p.value) }}</td><td class="num {{ p.ret|sign }}">{{ p.ret|cell('spct') }}</td>
+        <td class="num">{{ p.bench_ret|cell('spct') }}</td></tr>
+      {% endfor %}
+    </table></div>
+    {% else %}<p class="muted">None yet. <a href="/paper">Start one</a>.</p>{% endif %}
+  </section>
+</div>
+{% endblock %}

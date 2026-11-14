@@ -1,0 +1,4 @@
+<form method="post" action="/watchlist/{{ code }}/toggle" hx-post="/watchlist/{{ code }}/toggle" hx-swap="outerHTML" class="inline-form">
+  <button type="submit" class="secondary small{{ ' on' if watched }}" aria-pressed="{{ 'true' if watched else 'false' }}"
+    title="{{ 'Remove from' if watched else 'Add to' }} your watchlist">{{ '★ Watching' if watched else '☆ Watch' }}</button>
+</form>

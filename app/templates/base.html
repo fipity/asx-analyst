@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ASX Analyst{% endblock %}</title>
+  <link rel="stylesheet" href="{{ static_url('app.css') }}">
+  <script src="/static/vendor/htmx.min.js" defer></script>
+  <script src="{{ static_url('app.js') }}" defer></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">ASX Analyst</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/screener">Screener</a>
+      <a href="/watchlist">Watchlist</a>
+      <a href="/holdings">Holdings</a>
+      <a href="/news">News</a>
+      <a href="/signals">Signals</a>
+      <a href="/paper">Paper</a>
+      <a href="/backtest">Backtest</a>
+      <a href="/status">Status</a>
+      {% if password_on %}<a href="/logout">Log out</a>{% endif %}
+    </nav>
+    <div class="top-actions">
+      <form class="search" action="/go" method="get" role="search">
+        <input name="q" placeholder="Code or name" aria-label="Find a company" autocomplete="off">
+      </form>
+      {% set ds = data_state() %}
+      <form method="post" action="/refresh" id="refresh-form">
+        <button type="submit" id="refresh-btn" class="secondary small" title="Download the latest prices, announcements and signals now"
+          {% if ds.running %}disabled{% endif %}><span class="refresh-icon" aria-hidden="true">↻</span> <span class="refresh-label">{{ 'Refreshing…' if ds.running else 'Refresh data' }}</span></button>
+      </form>
+    </div>
+  </header>
+  <div id="data-bar" class="data-bar{{ ' running' if ds.running }}" role="status" aria-live="polite"
+       data-running="{{ '1' if ds.running else '0' }}">
+    <span class="data-bar-text">
+      {% if ds.running %}<strong>Refreshing data…</strong> {{ ds.message or 'getting ready' }}{% if ds.started_at %} <span class="muted">· started {{ (ds.started_at|time)[-5:] }}</span>{% endif %}
+      {% elif ds.last_update %}Data updated <strong>{{ ds.last_update|time }}</strong> <span class="muted">({{ ds.last_update|age }})</span>
+        {%- if ds.price_date %} · prices to close {{ ds.price_date|dmy }}{% endif %}
+        {%- if ds.last_status in ('error', 'interrupted') %} · <a href="/status" class="warn-inline">last refresh {{ 'failed' if ds.last_status == 'error' else 'was interrupted' }}</a>{% endif %}
+      {% else %}No data update has finished yet.{% endif %}
+    </span>
+    <a class="data-bar-link" href="/status">Status</a>
+    <span class="data-bar-progress" aria-hidden="true"><span style="{{ 'width: %d%%' % (100 * ds.done / ds.total) if ds.total else '' }}"
+      class="{{ '' if ds.total else 'indeterminate' }}"></span></span>
+  </div>
+  <div class="notice">
+    Educational tool, not financial advice. Free data is typically delayed 20+ minutes and may be incomplete.
+  </div>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    Data: Yahoo Finance (unofficial), ASX, ASIC, RBA, ETF holdings files. Personal, non-commercial use.
+    Never connected to a broker.
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

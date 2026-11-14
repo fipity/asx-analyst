@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Signals · ASX Analyst{% endblock %}
+{% block content %}
+<h1>Signals <span class="muted">{{ universe_label }}{% if as_of %} · as of close {{ as_of|dmy }}{% endif %}</span></h1>
+{% if not rows %}
+<p class="muted">No forecasts yet. They appear after the first model training (it runs automatically; see the <a href="/status">Status page</a>).</p>
+{% else %}
+{% if meta and (meta.auc_beat is none or meta.auc_beat < auc_skill) %}
+<div class="banner-bad">On the locked holdout{{ ' (' ~ meta.holdout_start[:4] ~ ' onwards)' if meta.holdout_start }} these models showed <strong>no reliable skill</strong> at picking stocks that beat the market
+  (AUC {{ '%.3f'|format(meta.auc_beat) if meta.auc_beat is not none else 'n/a' }}, where 0.5 is a coin flip). All signals are low confidence.
+  See the <a href="/backtest">backtest</a>.</div>
+{% else %}
+<p class="warn">Signals are model output, not advice. Check the <a href="/backtest">backtest</a> before relying on them.</p>
+{% endif %}
+<p class="muted">Buy = in the top {{ top_n }} by the chance of beating the ASX 200 (incl. dividends) over the next month, above 50%, with an expected
+  excess return above the {{ hurdle|cell('pct') }} round-trip cost of a A${{ '{:,.0f}'.format(50000 / top_n) }} position. Sell = bottom {{ top_n }} with the reverse.
+  This is the rule the backtest's model strategy follows. Everything else, and anything too illiquid to trade, is Hold.</p>
+{% include "_signal_record.html" %}
+<p class="muted"><a href="/export/signals.csv">Download every signal since forecasts began, with outcomes (CSV)</a>.
+  Want to see how the signals do from here on, with costs? The <a href="/paper">paper portfolio</a> "Model signals" follows them automatically.</p>
+<nav class="tabs">
+  <a href="/signals?sort={{ sort }}" class="{{ 'active' if not signal }}">All ({{ counts.values()|sum }})</a>
+  {% for k, n in counts.items() %}<a href="/signals?signal={{ k }}&amp;sort={{ sort }}" class="{{ 'active' if signal == k }}">{{ k }} ({{ n }})</a>{% endfor %}
+</nav>
+<div class="table-wrap"><table>
+  <thead><tr>
+    {% for key, label, cls in (('rank', 'Rank', 'num'), ('code', 'Code', ''), (None, 'Company', ''), ('signal', 'Signal', ''),
+                                ('p_beat', 'Chance to beat ASX 200 (1m)', 'num'), ('ex50', 'Expected vs ASX 200', 'num'),
+                                (None, 'Likely range, 1 month', 'num'), (None, 'Chance up (1w / 1m / 3m)', 'num'), (None, 'Median, 3 months', 'num')) %}
+    <th class="{{ cls }}">{% if key %}<a href="/signals?sort={{ key }}{{ '&signal=' ~ signal if signal }}">{{ label }}{{ ' ▼' if sort == key }}</a>{% else %}{{ label }}{% endif %}</th>
+    {% endfor %}
+  </tr></thead>
+  <tbody>{% for r in rows %}
+    <tr{% if not r.eligible %} class="stale" title="Not liquid enough to trade under the backtest rules"{% endif %}>
+      <td class="num">{{ r.rank or '—' }}</td>
+      <td><a href="/company/{{ r.code }}"><strong>{{ r.code }}</strong></a></td>
+      <td class="name">{{ r.name|coname }}</td>
+      <td><span class="sig sig-{{ r.signal|lower }}{{ ' nosk' if not skilled }}">{{ r.signal }}</span> <span class="muted">{{ r.confidence }}</span></td>
+      <td class="num">{{ r.p_beat|cell('pct0') }}</td>
+      <td class="num {{ r.ex50|sign }}">{{ r.ex50|cell('spct') }}</td>
+      <td class="num">{{ r.q10|cell('spct') }} to {{ r.q90|cell('spct') }}</td>
+      <td class="num">{{ r.p_up_5|cell('pct0') }} / {{ r.p_up|cell('pct0') }} / {{ r.p_up_63|cell('pct0') }}</td>
+      <td class="num {{ r.q50_63|sign }}">{{ r.q50_63|cell('spct') }}</td>
+    </tr>
+  {% endfor %}</tbody>
+</table></div>
+{% set qh = (run.summary.quality.get('21_' ~ run.summary.production_variant) or {}).get('holdout') if run else none %}
+<p class="muted">Chances and ranges are calibrated on the model's past out-of-sample record, so "55%" means such predictions came true about
+  55% of the time. Ranges are meant to contain the 1-month total return 80% of the time;
+  {% if qh and qh.coverage_cal is defined %}on the locked holdout they did {{ qh.coverage_cal|cell('pct0') }} of the time
+  (before calibration: {{ qh.coverage_raw|cell('pct0') }}).{% else %}see the <a href="/backtest#holdout">backtest</a> for how often they did.{% endif %}
+  Rank is by the model's raw score. Never a price target.</p>
+{% endif %}
+{% endblock %}
